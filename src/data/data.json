@@ -1,0 +1,21 @@
+{
+  "name": "few",
+  "activities": [
+    {
+      "id": "123",
+      "title": "modTitle",
+      "description": "modDesc",
+      "date": "2026-01-02T18:51:07.55689Z",
+      "increased_stats": [
+        {
+          "stat": "guts",
+          "points": 1
+        },
+        {
+          "stat": "proficiency",
+          "points": 1
+        }
+      ]
+    }
+  ]
+}
