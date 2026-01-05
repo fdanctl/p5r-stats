@@ -1,11 +1,11 @@
 package handlers
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
 
+	"github.com/fdanctl/p5r-stats/src/middleware"
 	"github.com/fdanctl/p5r-stats/src/models"
 	"github.com/fdanctl/p5r-stats/src/render"
 	"github.com/fdanctl/p5r-stats/src/services"
@@ -103,36 +103,9 @@ func ActivityHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		decoder := json.NewDecoder(r.Body)
-		var body models.ActivityInput
-		err := decoder.Decode(&body)
+		body, err := middleware.DecodeRequestBody[models.ActivityInput](r.Body)
 		if err != nil {
-			var syntaxErr *json.SyntaxError
-			if errors.As(err, &syntaxErr) {
-				http.Error(
-					w,
-					fmt.Sprintf("Malformed JSON at byte %d", syntaxErr.Offset),
-					http.StatusBadRequest,
-				)
-				return
-			}
-
-			var unmarshalTypeErr *json.UnmarshalTypeError
-			if errors.As(err, &unmarshalTypeErr) {
-				http.Error(
-					w,
-					fmt.Sprintf("Field '%s' has wrong type", unmarshalTypeErr.Field),
-					http.StatusBadRequest,
-				)
-				return
-			}
-
-			if errors.Is(err, models.ErrInvalidStat) {
-				http.Error(w, err.Error(), http.StatusBadRequest)
-				return
-			}
-
-			http.Error(w, "Invalid request body", http.StatusBadRequest)
+			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
@@ -167,34 +140,10 @@ func ActivityIdHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		decoder := json.NewDecoder(r.Body)
-		var body models.ActivityModifyInput
-		err := decoder.Decode(&body)
+		body, err := middleware.DecodeRequestBody[models.ActivityModifyInput](r.Body)
 		if err != nil {
-			var syntaxErr *json.SyntaxError
-			if errors.As(err, &syntaxErr) {
-				http.Error(
-					w,
-					fmt.Sprintf("Malformed JSON at byte %d", syntaxErr.Offset),
-					http.StatusBadRequest,
-				)
-				return
-			}
-
-			var unmarshalTypeErr *json.UnmarshalTypeError
-			if errors.As(err, &unmarshalTypeErr) {
-				http.Error(
-					w,
-					fmt.Sprintf("Field '%s' has wrong type", unmarshalTypeErr.Field),
-					http.StatusBadRequest,
-				)
-				return
-			}
-
-			if errors.Is(err, models.ErrInvalidStat) {
-				http.Error(w, err.Error(), http.StatusBadRequest)
-				return
-			}
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
 		}
 
 		err = body.Validate()

@@ -34,7 +34,7 @@ func (s Stat) String() string {
 	}
 }
 
-func ParseStat(s string) (Stat, error) {
+func parseStat(s string) (Stat, error) {
 	switch s {
 	case "knowledge":
 		return Knowledge, nil
@@ -47,7 +47,7 @@ func ParseStat(s string) (Stat, error) {
 	case "charm":
 		return Charm, nil
 	default:
-		return 0, fmt.Errorf("%w: %s", ErrInvalidStat, s)
+		return -1, fmt.Errorf("%w: %s", ErrInvalidStat, s)
 	}
 }
 
@@ -57,10 +57,7 @@ func (s *Stat) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	stat, err := ParseStat(str)
-	if err != nil {
-		return err
-	}
+	stat, _ := parseStat(str)
 
 	*s = stat
 	return nil
@@ -78,7 +75,7 @@ type IncreasedStat struct {
 
 func (v IncreasedStat) Validate() error {
 	if v.Stat.String() == "unknown" {
-		return errors.New("Invalid stat")
+		return ErrInvalidStat
 	}
 	if v.Points == 0 {
 		return errors.New("Field 'points' is required, and must not be 0.")
