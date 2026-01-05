@@ -147,17 +147,12 @@ func ModifyActivity(id string, input models.ActivityModifyInput) error {
 				pDate = &inputDate
 			}
 
-			newIncreasedStats := *input.IncreasedStats
-			if len(newIncreasedStats) == 0 {
-				newIncreasedStats = v.IncreasedStats
-			}
-
 			userData.Activities[i] = models.Activity{
 				Id:             v.Id,
 				Title:          utils.FallbackToB(input.Title, &v.Title),
 				Description:    utils.FallbackToB(input.Description, &v.Description),
 				Date:           utils.FallbackToB(pDate, &v.Date),
-				IncreasedStats: newIncreasedStats,
+				IncreasedStats: utils.FallbackToB(input.IncreasedStats, &v.IncreasedStats),
 			}
 			found = true
 			break
