@@ -48,3 +48,16 @@ func (value ActivityModifyInput) Validate() error {
 	}
 	return nil
 }
+
+type Stats struct {
+	Knowledge   int
+	Guts        int
+	Proficiency int
+	Kindness    int
+	Charm       int
+}
+
+type HomePageData struct {
+	UserData
+	Stats Stats `json:"stats"`
+}

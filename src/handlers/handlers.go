@@ -15,11 +15,23 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 
 	case http.MethodGet:
-		data, err := services.ReadUserData()
+		userData, err := services.ReadUserData()
 
 		if err != nil {
 			render.HTML(w, "new.html", nil)
 		} else {
+			stats := services.ComputeStats(userData.Activities)
+
+			data := models.HomePageData{
+				UserData: *userData,
+				Stats: models.Stats{
+					Knowledge:   stats[models.Knowledge],
+					Guts:        stats[models.Guts],
+					Proficiency: stats[models.Proficiency],
+					Kindness:    stats[models.Kindness],
+					Charm:       stats[models.Charm],
+				},
+			}
 			render.HTML(w, "home.html", data)
 		}
 

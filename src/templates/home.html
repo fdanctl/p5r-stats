@@ -19,6 +19,13 @@
     <button onclick="modify()">Modify</button>
     <h1>{{.Name}}</h1>
     <h3>Stats</h3>
+    <ul>
+      <li>Knowledge: {{.Stats.Knowledge}}</li>
+      <li>Guts: {{.Stats.Guts}}</li>
+      <li>Proficiency: {{.Stats.Proficiency}}</li>
+      <li>Kindness: {{.Stats.Kindness}}</li>
+      <li>Charm: {{.Stats.Charm}}</li>
+    </ul>
     <h3>Log</h3>
     <ul>
       {{range .Activities}}

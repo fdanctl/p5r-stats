@@ -29,15 +29,21 @@ func writeData(userData *models.UserData) error {
 	return nil
 }
 
-func computeStats(activities []models.Activity) (map[models.Stat]int, error) {
+func ComputeStats(activities []models.Activity) map[models.Stat]int {
 	result := make(map[models.Stat]int, 5)
+	result[models.Knowledge] = 0
+	result[models.Guts] = 0
+	result[models.Proficiency] = 0
+	result[models.Kindness] = 0
+	result[models.Charm] = 0
+
 	for _, v := range activities {
 		for _, s := range v.IncreasedStats {
 			result[s.Stat] += int(s.Points)
 		}
 	}
 
-	return result, nil
+	return result
 }
 
 func ReadUserData() (*models.UserData, error) {
@@ -58,7 +64,6 @@ func ReadUserData() (*models.UserData, error) {
 		return nil, err
 	}
 
-	computeStats(data.Activities)
 	return &data, nil
 }
 
