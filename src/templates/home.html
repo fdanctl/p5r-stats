@@ -1,115 +1,100 @@
-<!doctype html>
-<html lang="en">
+{{ define "title" }}Persona 5 Royal - Stats{{ end }}
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Persona 5 Royal - Stats</title>
-
-    <!-- CSS order matters -->
-    <link href="/static/css/base.css" rel="stylesheet" />
-    <link href="/static/css/components/buttons.css" rel="stylesheet" />
-    <link href="/static/css/components/inputs.css" rel="stylesheet" />
-    <link href="/static/css/utilities.css" rel="stylesheet" />
-  </head>
-
-  <body>
-    <button onclick="deleteUserData()">Delete</button>
-    <button onclick="insertAcitivity()">New Activity</button>
-    <button onclick="modify()">Modify</button>
-    <h1>{{.Name}}</h1>
-    <h3>Stats</h3>
+{{ define "content" }}
+<button onclick="deleteUserData()">Delete</button>
+<button onclick="insertAcitivity()">New Activity</button>
+<button onclick="modify()">Modify</button>
+<h1>{{ .Name }}</h1>
+<h3>Stats</h3>
+<ul>
+  <li>Knowledge: {{ .Stats.Knowledge }}</li>
+  <li>Guts: {{.Stats.Guts}}</li>
+  <li>Proficiency: {{ .Stats.Proficiency }}</li>
+  <li>Kindness: {{ .Stats.Kindness }}</li>
+  <li>Charm: {{ .Stats.Charm }}</li>
+</ul>
+<h3>Log</h3>
+<ul>
+  {{ range .Activities }}
+  <li data-id="{{.Id}}" onclick="remove(this.dataset.id)">
+    <div class="flex">
+      <p>{{ .Title }}</p>
+      <p>{{ .Date }}</p>
+    </div>
     <ul>
-      <li>Knowledge: {{.Stats.Knowledge}}</li>
-      <li>Guts: {{.Stats.Guts}}</li>
-      <li>Proficiency: {{.Stats.Proficiency}}</li>
-      <li>Kindness: {{.Stats.Kindness}}</li>
-      <li>Charm: {{.Stats.Charm}}</li>
-    </ul>
-    <h3>Log</h3>
-    <ul>
-      {{range .Activities}}
-      <li data-id="{{.Id}}" onclick="remove(this.dataset.id)">
-        <div class="flex">
-          <p>{{titleCase .Title}}</p>
-          <p>{{.Date}}</p>
-        </div>
-        <ul>
-          {{range .IncreasedStats}}
-          <li>
-            <p>{{.Stat}}</p>
-            <p>{{.Points}}</p>
-          </li>
-          {{end}}
-        </ul>
+      {{ range .IncreasedStats }}
+      <li>
+        <p>{{ .Stat }}</p>
+        <p>{{ .Points }}</p>
       </li>
-      {{end}}
+      {{ end }}
     </ul>
-    <script>
-      // TODO: .js file
-      async function remove(id) {
-        await fetch(`/activity/${id}`, {
-          method: "DELETE",
-        });
-      }
+  </li>
+  {{ end }}
+</ul>
+<script>
+// TODO: .js file
+async function remove(id) {
+  await fetch(`/activity/${id}`, {
+    method: "DELETE",
+  });
+}
 
-      async function deleteUserData() {
-        await fetch("/user-data", {
-          method: "DELETE",
-        });
-      }
+async function deleteUserData() {
+  await fetch("/user-data", {
+    method: "DELETE",
+  });
+}
 
-      async function insertAcitivity() {
-        const mockBody = {
-          title: "hello",
-          description: "hello2",
-          increased_stats: [
-            {
-              stat: "guts",
-              points: 1,
-            },
-            {
-              stat: "proficiency",
-              points: 1,
-            },
-          ],
-        };
-        await fetch("/activity", {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(mockBody),
-        });
-      }
+async function insertAcitivity() {
+  const mockBody = {
+    title: "hello",
+    description: "hello2",
+    increased_stats: [
+      {
+        stat: "guts",
+        points: 1,
+      },
+      {
+        stat: "proficiency",
+        points: 1,
+      },
+    ],
+  };
+  await fetch("/activity", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(mockBody),
+  });
+}
 
-      async function modify(id) {
-        const mockBody = {
-          title: "modTitle",
-          // description: "modDesc",
-          // increased_stats: [
-          //   {
-          //     stat: "guts",
-          //     points: 10,
-          //   },
-          //   {
-          //     stat: "proficiency",
-          //     points: 10,
-          //   },
-          // ],
-          date: "1991-12-21"
-        };
-        await fetch("/activity/123", {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(mockBody),
-        });
-      }
-    </script>
-  </body>
-
-</html>
+async function modify(id) {
+  const mockBody = {
+    title: "modTitle",
+    // description: "modDesc",
+    // increased_stats: [
+    //   {
+    //     stat: "guts",
+    //     points: 10,
+    //   },
+    //   {
+    //     stat: "proficiency",
+    //     points: 10,
+    //   },
+    // ],
+    date: "1991-12-21"
+  };
+  await fetch("/activity/123", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(mockBody),
+  });
+}
+</script>
+{{ end }}

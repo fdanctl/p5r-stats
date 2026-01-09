@@ -1,188 +1,171 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Design System - P5R Stats</title>
+{{ define "title" }}Design System{{ end }}
 
-    <!-- CSS order matters -->
-    <link href="/static/css/base.css" rel="stylesheet" />
-    <link href="/static/css/components/buttons.css" rel="stylesheet" />
-    <link href="/static/css/components/inputs.css" rel="stylesheet" />
-    <link href="/static/css/components/modal.css" rel="stylesheet" />
-    <link href="/static/css/components/toast.css" rel="stylesheet" />
-    <link href="/static/css/components/tooltip.css" rel="stylesheet" />
-    <link href="/static/css/utilities.css" rel="stylesheet" />
-  </head>
+{{ define "content" }}
+<div class="p-lg space-y-xl">
+  <header>
+    <h1 class="heading-display">Design System</h1>
+    <p class="text-subtitle">Component showcase and testing</p>
+  </header>
 
-  <body class="p-lg">
-    <div class="space-y-xl">
-      <header>
-        <h1 class="heading-display">Design System</h1>
-        <p class="text-subtitle">Component showcase and testing</p>
-      </header>
+  <!-- Typography -->
+  <section class="space-y-md">
+    <h2>Typography</h2>
+    <hr class="separator" />
 
-      <!-- Typography -->
-      <section class="space-y-md">
-        <h2>Typography</h2>
-        <hr class="separator" />
-        
-        <div class="space-y-sm">
-          <h1 class="heading-display">Display Heading</h1>
-          <h1>Heading 1</h1>
-          <h2>Heading 2</h2>
-          <h3>Heading 3</h3>
-          <h4>Heading 4</h4>
-          <h5>Heading 5</h5>
-          <h6>Heading 6</h6>
-          <p class="text-base">Base text - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          <p class="text-subtitle">Subtitle text - Used for secondary information</p>
-          <p class="text-caption">Caption text - Uppercase with letter spacing</p>
-          <p class="text-sm">Small text</p>
-        </div>
-      </section>
+    <div class="space-y-sm">
+      <h1 class="heading-display">Display Heading</h1>
+      <h1>Heading 1</h1>
+      <h2>Heading 2</h2>
+      <h3>Heading 3</h3>
+      <h4>Heading 4</h4>
+      <h5>Heading 5</h5>
+      <h6>Heading 6</h6>
+      <p class="text-base">Base text - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <p class="text-subtitle">Subtitle text - Used for secondary information</p>
+      <p class="text-caption">Caption text - Uppercase with letter spacing</p>
+      <p class="text-sm">Small text</p>
+    </div>
+  </section>
 
-      <!-- Buttons -->
-      <section class="space-y-md">
-        <h2>Buttons</h2>
-        <hr class="separator" />
-        
-        <div class="flex flex-wrap gap-md items-center">
-          <button class="btn btn-primary">Primary Button</button>
-          <button class="btn btn-outline">Outline Button</button>
-          <button class="btn btn-ghost">Ghost Button</button>
-          <button class="btn btn-destructive">Destructive Button</button>
-          <button class="btn btn-primary" disabled>Disabled</button>
-        </div>
+  <!-- Buttons -->
+  <section class="space-y-md">
+    <h2>Buttons</h2>
+    <hr class="separator" />
 
-        <div class="flex flex-wrap gap-md items-center">
-          <button class="btn btn-primary btn-sm">Small Primary</button>
-          <button class="btn btn-outline btn-sm">Small Outline</button>
-          <button class="btn btn-ghost btn-sm">Small Ghost</button>
-        </div>
-
-        <div class="flex flex-wrap gap-md items-center">
-          <button class="btn btn-primary btn-lg">Large Primary</button>
-          <button class="btn btn-outline btn-lg">Large Outline</button>
-          <button class="btn btn-ghost btn-lg">Large Ghost</button>
-        </div>
-
-        <div class="flex flex-wrap gap-md items-center">
-          <button class="btn btn-primary btn-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-          </button>
-          <button class="btn btn-outline btn-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-          <button class="btn btn-ghost btn-icon btn-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-            </svg>
-          </button>
-        </div>
-      </section>
-
-      <!-- Inputs -->
-      <section class="space-y-md">
-        <h2>Inputs</h2>
-        <hr class="separator" />
-        
-        <div class="space-y-sm" style="max-width: 400px;">
-          <input class="input" type="text" placeholder="Text input" />
-          <input class="input" type="email" placeholder="Email input" />
-          <input class="input" type="password" placeholder="Password input" />
-          <input class="input" type="number" placeholder="Number input" />
-        </div>
-
-        <div class="space-y-sm" style="max-width: 400px;">
-          <div class="select">
-            <div class="select-trigger">
-              <span>Select option</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div class="space-y-sm" style="max-width: 400px;">
-          <div class="search-bar">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input class="input" type="text" placeholder="Search..." style="padding-left: 2.5rem;" />
-          </div>
-        </div>
-
-        <div class="icon-container">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-          </svg>
-        </div>
-      </section>
-
-      <!-- Modals -->
-      <section class="space-y-md">
-        <h2>Modals</h2>
-        <hr class="separator" />
-        
-        <button class="btn btn-primary" onclick="openModal('test-modal')">
-          Open Modal
-        </button>
-      </section>
+    <div class="flex flex-wrap gap-md items-center">
+      <button class="btn btn-primary">Primary Button</button>
+      <button class="btn btn-outline">Outline Button</button>
+      <button class="btn btn-ghost">Ghost Button</button>
+      <button class="btn btn-destructive">Destructive Button</button>
+      <button class="btn btn-primary" disabled>Disabled</button>
     </div>
 
-    <div id="test-modal" class="modal hidden">
-      <div tabindex="-1">
-        <h3>Modal Title</h3>
-        <p class="text-subtitle mt-sm">This is a modal dialog</p>
-        <div class="mt-lg">
-          <input class="input" type="text" placeholder="Input in modal" />
+    <div class="flex flex-wrap gap-md items-center">
+      <button class="btn btn-primary btn-sm">Small Primary</button>
+      <button class="btn btn-outline btn-sm">Small Outline</button>
+      <button class="btn btn-ghost btn-sm">Small Ghost</button>
+    </div>
+
+    <div class="flex flex-wrap gap-md items-center">
+      <button class="btn btn-primary btn-lg">Large Primary</button>
+      <button class="btn btn-outline btn-lg">Large Outline</button>
+      <button class="btn btn-ghost btn-lg">Large Ghost</button>
+    </div>
+
+    <div class="flex flex-wrap gap-md items-center">
+      <button class="btn btn-primary btn-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+      </button>
+      <button class="btn btn-outline btn-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <button class="btn btn-ghost btn-icon btn-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- Inputs -->
+  <section class="space-y-md">
+    <h2>Inputs</h2>
+    <hr class="separator" />
+
+    <div class="space-y-sm" style="max-width: 400px;">
+      <input class="input" type="text" placeholder="Text input" />
+      <input class="input" type="email" placeholder="Email input" />
+      <input class="input" type="password" placeholder="Password input" />
+      <input class="input" type="number" placeholder="Number input" />
+    </div>
+
+    <div class="space-y-sm" style="max-width: 400px;">
+      <div class="select">
+        <div class="select-trigger">
+          <span>Select option</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
         </div>
-        <button class="btn-primary modal-abs-btn" onclick="document.getElementById('test-modal').classList.add('hidden')">
-          Close
-        </button>
       </div>
     </div>
 
-    <script>
-      function openModal(id) {
-        const modal = document.getElementById(id)
-        modal.classList.toggle('hidden');
+    <div class="space-y-sm" style="max-width: 400px;">
+      <div class="search-bar">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input class="input" type="text" placeholder="Search..." style="padding-left: 2.5rem;" />
+      </div>
+    </div>
 
-        const focusable = modal.querySelectorAll(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
+    <div class="icon-container">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+      </svg>
+    </div>
+  </section>
 
-        modal.addEventListener('keydown', (e) => {
-          if (e.key !== 'Tab') return;
+  <!-- Modals -->
+  <section class="space-y-md">
+    <h2>Modals</h2>
+    <hr class="separator" />
 
-          if (e.shiftKey) {
-            // Shift+Tab on first element → go to last
-            if (document.activeElement === first) {
-              e.preventDefault();
-              last.focus();
-            }
-          } else {
-            // Tab on last element → go to first
-            if (document.activeElement === last) {
-              e.preventDefault();
-              first.focus();
-            }
-          }
-        });
-        // start focus on the modal (must have tabindex="-1")
-        modal.querySelector('div:last-child')
+    <button class="btn btn-primary" onclick="openModal('test-modal')">
+      Open Modal
+    </button>
+  </section>
+</div>
+
+<div id="test-modal" class="modal hidden">
+  <div tabindex="-1">
+    <h3>Modal Title</h3>
+    <p class="text-subtitle mt-sm">This is a modal dialog</p>
+    <div class="mt-lg">
+      <input class="input" type="text" placeholder="Input in modal" />
+    </div>
+    <button class="btn-primary modal-abs-btn" onclick="document.getElementById('test-modal').classList.add('hidden')">
+      Close
+    </button>
+  </div>
+</div>
+
+<script>
+function openModal(id) {
+  const modal = document.getElementById(id)
+  modal.classList.toggle('hidden');
+
+  const focusable = modal.querySelectorAll(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  );
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+
+  modal.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab') return;
+
+    if (e.shiftKey) {
+      // Shift+Tab on first element → go to last
+      if (document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
       }
+    } else {
+      // Tab on last element → go to first
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
+  // start focus on the modal (must have tabindex="-1")
+  modal.querySelector('div:last-child')
+}
 
-      // close modal to remove addEventListener
-    </script>
-  </body>
-</html>
-
+// close modal to remove addEventListener
+</script>
+{{ end }}

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ block "title" . }}Persona 5 Royal{{ end }}</title>
+
+    <!-- CSS order matters -->
+    <link href="/static/css/base.css" rel="stylesheet" />
+    <link href="/static/css/components/buttons.css" rel="stylesheet" />
+    <link href="/static/css/components/inputs.css" rel="stylesheet" />
+    <link href="/static/css/components/modal.css" rel="stylesheet" />
+    {{ block "extraCSS" . }}{{ end }}
+    <link href="/static/css/utilities.css" rel="stylesheet" />
+
+    {{ block "scripts" . }}{{ end }}
+  </head>
+
+  <body>
+    {{ block "content" . }}{{ end }}
+  </body>
+</html>

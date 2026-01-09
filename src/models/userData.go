@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-type Stat int
+type Stat int8
 
 const (
 	Knowledge Stat = iota

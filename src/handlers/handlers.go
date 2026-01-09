@@ -18,7 +18,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		userData, err := services.ReadUserData()
 
 		if err != nil {
-			render.HTML(w, "new.html", nil)
+			render.HTML(w, render.PageNewUser, nil)
 		} else {
 			stats := services.ComputeStats(userData.Activities)
 
@@ -32,7 +32,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 					Charm:       stats[models.Charm],
 				},
 			}
-			render.HTML(w, "home.html", data)
+			render.HTML(w, render.PageHome, data)
 		}
 
 	default:
@@ -82,7 +82,7 @@ func DesignHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 
 	case http.MethodGet:
-		render.HTML(w, "design-system.html", nil)
+		render.HTML(w, render.PageDesignSystem, nil)
 
 	default:
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
