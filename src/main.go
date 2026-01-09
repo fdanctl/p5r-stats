@@ -11,11 +11,6 @@ import (
 )
 
 func main() {
-	cfg, err := config.LoadConfig("config/config.json")
-	if err != nil {
-		panic(err)
-	}
-
 	render.Init()
 
 	http.Handle(
@@ -31,7 +26,7 @@ func main() {
 	http.HandleFunc("/activity/", handlers.ActivityIdHandler)
 	http.HandleFunc("/design-system", handlers.DesignHandler)
 
-	fmt.Println("Server running at http://localhost:" + cfg.ServerPort)
+	fmt.Println("Server running at http://localhost:" + config.ServerPort)
 
 	// Try to find local IP
 	addrs, err := net.InterfaceAddrs()
@@ -40,10 +35,10 @@ func main() {
 			// check the address type and ignore loopback
 			if ipnet, ok := addr.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
 				if ipnet.IP.To4() != nil { // IPv4
-					fmt.Println("Accessible on your LAN at: http://" + ipnet.IP.String() + ":" + cfg.ServerPort)
+					fmt.Println("Accessible on your LAN at: http://" + ipnet.IP.String() + ":" + config.ServerPort)
 				}
 			}
 		}
 	}
-	http.ListenAndServe(":"+cfg.ServerPort, nil)
+	http.ListenAndServe(":"+config.ServerPort, nil)
 }

@@ -12,17 +12,12 @@ import (
 )
 
 func writeData(userData *models.UserData) error {
-	cfg, err := config.LoadConfig("config/config.json")
-	if err != nil {
-		return err
-	}
-
 	data, err := json.MarshalIndent(&userData, "", "  ")
 	if err != nil {
 		return err
 	}
 
-	if err := os.WriteFile(cfg.DataFile, data, 0644); err != nil {
+	if err := os.WriteFile(config.DataFile, data, 0644); err != nil {
 		return err
 	}
 
@@ -47,12 +42,7 @@ func ComputeStats(activities []models.Activity) map[models.Stat]int {
 }
 
 func ReadUserData() (*models.UserData, error) {
-	cfg, err := config.LoadConfig("config/config.json")
-	if err != nil {
-		return nil, err
-	}
-
-	file, err := os.ReadFile(cfg.DataFile)
+	file, err := os.ReadFile(config.DataFile)
 
 	if err != nil {
 		return nil, models.ErrNotFound
@@ -68,12 +58,7 @@ func ReadUserData() (*models.UserData, error) {
 }
 
 func CreateUserData(name string) error {
-	cfg, err := config.LoadConfig("config/config.json")
-	if err != nil {
-		return err
-	}
-
-	_, err = os.ReadFile(cfg.DataFile)
+	_, err := os.ReadFile(config.DataFile)
 
 	if err == nil {
 		return models.ErrAlreadyExists
@@ -93,12 +78,8 @@ func CreateUserData(name string) error {
 }
 
 func DeleteUserData() error {
-	cfg, err := config.LoadConfig("config/config.json")
-	if err != nil {
-		return err
-	}
-	err = os.Remove(cfg.DataFile)
-	return nil
+	err := os.Remove(config.DataFile)
+	return err
 }
 
 func InsertActivity(input models.ActivityInput) error {
