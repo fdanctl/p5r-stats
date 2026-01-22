@@ -11,6 +11,17 @@ import (
 	"github.com/fdanctl/p5r-stats/src/services"
 )
 
+func TestHandler(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+
+	case http.MethodGet:
+		render.HTML(w, render.PageTest, nil)
+
+	default:
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+	}
+}
+
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 

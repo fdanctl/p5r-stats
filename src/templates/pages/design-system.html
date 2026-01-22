@@ -1,5 +1,9 @@
 {{ define "title" }}Design System{{ end }}
 
+{{ define "scripts" }}
+<script src="/static/js/modal.js" defer></script>
+{{ end }}
+
 {{ define "content" }}
 <div class="p-lg space-y-xl">
   <header>
@@ -115,13 +119,14 @@
     <h2>Modals</h2>
     <hr class="separator" />
 
-    <button class="btn btn-primary" onclick="openModal('test-modal')">
+    <button class="btn btn-primary" onclick="toggleModal('test-modal')">
       Open Modal
     </button>
   </section>
 </div>
 
-<div id="test-modal" class="modal hidden">
+<div id="test-modal" class="modal">
+  <div onclick="toggleModal(event.target.parentElement.id)"></div>
   <div tabindex="-1">
     <h3>Modal Title</h3>
     <p class="text-subtitle mt-sm">This is a modal dialog</p>
@@ -133,39 +138,4 @@
     </button>
   </div>
 </div>
-
-<script>
-function openModal(id) {
-  const modal = document.getElementById(id)
-  modal.classList.toggle('hidden');
-
-  const focusable = modal.querySelectorAll(
-    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-  );
-  const first = focusable[0];
-  const last = focusable[focusable.length - 1];
-
-  modal.addEventListener('keydown', (e) => {
-    if (e.key !== 'Tab') return;
-
-    if (e.shiftKey) {
-      // Shift+Tab on first element → go to last
-      if (document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      }
-    } else {
-      // Tab on last element → go to first
-      if (document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    }
-  });
-  // start focus on the modal (must have tabindex="-1")
-  modal.querySelector('div:last-child')
-}
-
-// close modal to remove addEventListener
-</script>
 {{ end }}

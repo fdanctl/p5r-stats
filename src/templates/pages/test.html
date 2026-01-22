@@ -1,0 +1,25 @@
+{{ define "title" }}Test{{ end }}
+
+{{ define "extraCSS"}}
+    <link href="/static/css/components/svg.css" rel="stylesheet" />
+{{ end }}
+
+{{ define "scripts" }}
+<script src="/static/js/modal.js" defer></script>
+<script src="/static/js/tooltip.js" defer></script>
+{{ end }}
+
+{{ define "content" }}
+<button onclick="toggleModal('activity-test')">Open</button>
+<button onclick="toggleModal('settings-test')">settings</button>
+{{ template "modal" (dict
+  "Id"      "activity-test"
+  "Title"   "world"
+  "Content" "activity"
+)}}
+{{ template "modal" (dict
+  "Id"      "settings-test"
+  "Title"   "world"
+  "Content" "settings"
+)}}
+{{ end }}

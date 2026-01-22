@@ -1,35 +1,12 @@
 {{ define "title" }}Persona 5 Royal - Stats{{ end }}
+
 {{ define "extraCSS"}}
-    <link href="/static/css/components/svg.css" rel="stylesheet" />
+<link href="/static/css/components/svg.css" rel="stylesheet" />
 {{ end }}
 
-{{ define "modalTitle" }}New Activity{{ end }}
-{{ define "modalContent"}}
-<form>
-  <input class="input" type="text" placeholder="Title" name="title" />
-  <textarea class="input" placeholder="Description" name="description" rows="5" cols="33" maxlength="200">
-  </textarea>
-  <div class="flex gap-xs items-center cursor-help" onmouseenter="showNearestTooltip(this)" onmouseleave="hideNearestTooltip(this)">
-    <h4>Stats</h4>
-    <div class="relative question-mark-container">
-      {{ template "questionMarkSVG" . }}
-      {{ template "tooltip" (dict "Text" "info") }}
-    </div>
-  </div>
-  <div class="flex gap-xs">
-    <select class="input" name="stat">
-      <option value="" disabled selected hidden>Add stat</option>
-      <option value="knowledge">Knowledge</option>
-      <option value="guts">Guts</option>
-      <option value="proficiency">Proficiency</option>
-      <option value="kindness">Kindness</option>
-      <option value="charm">Charm</option>
-    </select>
-    <input class="input" type="number" min="1" max="10" name="points" value="1"/>
-  </div>
-  <div class="music-note-container">{{ template "musicNoteSVG" . }}</div>
-  <button class="btn-primary modal-abs-btn" type="reset">reset</button>
-</form>
+{{ define "scripts" }}
+<script src="/static/js/modal.js" defer></script>
+<script src="/static/js/tooltip.js" defer></script>
 {{ end }}
 
 {{ define "content" }}
@@ -64,7 +41,11 @@
   </li>
   {{ end }}
 </ul>
-{{ template "modal" . }}
+{{ template "modal" (dict
+  "Id"      "add-activity"
+  "Title"   "Add Activity"
+  "Content" "activity"
+)}}
 <script>
 // TODO: .js file
 async function remove(id) {
@@ -128,16 +109,6 @@ async function modify(id) {
     },
     body: JSON.stringify(mockBody),
   });
-}
-
-function showNearestTooltip(element) {
-  const tooltip = element.getElementsByClassName("tooltip")[0];
-  tooltip.classList.add("visible");
-}
-
-function hideNearestTooltip(element) {
-  const tooltip = element.getElementsByClassName("tooltip")[0];
-  tooltip.classList.remove("visible");
 }
 </script>
 {{ end }}

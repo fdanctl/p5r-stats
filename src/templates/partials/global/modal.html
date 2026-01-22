@@ -1,8 +1,62 @@
 {{ define "modal" }}
-<div class="modal">
+<div id={{.Id}} class="modal{{ if .Show }} visible{{ end }}" >
+  <div onclick="toggleModal(event.target.parentElement.id)"></div>
   <div>
-    <h3>{{ block "modalTitle" . }}{{ end }}</h3>
-    <div>{{ block "modalContent" . }}{{ end }}</div>
+    <h3>{{ .Title }}</h3>
+    <div>
+      {{ if eq .Content "activity"}}
+        {{ template "formActivity" }}
+      {{ else if eq .Content "newUser" }}
+        {{ template "formNewUser" }}
+      {{ else if eq .Content "settings" }}
+        {{ template "formSettings" }}
+      {{ else }}
+        <h1>hello</h1>
+      {{ end }}
+    </div>
   </div>
 </div>
+{{ end }}
+
+{{ define "formNewUser"}}
+<form method="post" action="/user-data">
+  <input class="input" type="text" placeholder="Name" name="name" />
+  <button class="btn-primary modal-abs-btn" type="submit">Create</button>
+</form>
+{{ end }}
+
+{{define "formActivity"}}
+<form>
+  <input class="input" type="text" placeholder="Title" name="title" />
+  <textarea class="input" placeholder="Description" name="description" rows="5" cols="33" maxlength="200">
+  </textarea>
+  <div class="flex gap-xs items-center cursor-help" onmouseenter="showNearestTooltip(this)"
+    onmouseleave="hideNearestTooltip(this)">
+    <h4>Stats</h4>
+    <div class="relative question-mark-container">
+      {{ template "questionMarkSVG" . }} {{ template "tooltip" (dict "Text"
+      "info") }}
+    </div>
+  </div>
+  <div class="flex gap-xs">
+    <select class="input" name="stat">
+      <option value="" disabled selected hidden>Add stat</option>
+      <option value="knowledge">Knowledge</option>
+      <option value="guts">Guts</option>
+      <option value="proficiency">Proficiency</option>
+      <option value="kindness">Kindness</option>
+      <option value="charm">Charm</option>
+    </select>
+    <input class="input" type="number" min="1" max="10" name="points" value="1" />
+  </div>
+  <div class="music-note-container">{{ template "musicNoteSVG" . }}</div>
+  <button class="btn-primary modal-abs-btn" type="reset">reset</button>
+</form>
+{{end}}
+
+{{ define "formSettings"}}
+<form method="post">
+  <h3>Settings</h3>
+  <button class="btn-primary modal-abs-btn" type="submit">yoo</button>
+</form>
 {{ end }}

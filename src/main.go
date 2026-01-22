@@ -25,6 +25,7 @@ func main() {
 	http.HandleFunc("/activity", handlers.ActivityHandler)
 	http.HandleFunc("/activity/", handlers.ActivityIdHandler)
 	http.HandleFunc("/design-system", handlers.DesignHandler)
+	http.HandleFunc("/test", handlers.TestHandler)
 
 	fmt.Println("Server running at http://localhost:" + config.ServerPort)
 

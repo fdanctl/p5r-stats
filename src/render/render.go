@@ -16,6 +16,7 @@ const (
 	PageHome page = iota
 	PageNewUser
 	PageDesignSystem
+	PageTest
 )
 
 type mapValue struct {
@@ -73,6 +74,16 @@ func Init() {
 				template.New("").Funcs(funcs).ParseFiles(
 					"src/templates/layouts/base.html",
 					"src/templates/pages/design-system.html",
+				)),
+			entry: "base.html",
+		},
+		PageTest: {
+			tmpl: template.Must(
+				template.New("").Funcs(funcs).ParseFiles(
+					append([]string{
+						"src/templates/layouts/base.html",
+						"src/templates/pages/test.html",
+					}, globalPartials...)...,
 				)),
 			entry: "base.html",
 		},

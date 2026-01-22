@@ -12,14 +12,12 @@
   opacity: 0;
   visibility: hidden;
   transition: opacity 150ms ease, visibility 150ms ease;
-
 }
 
 div:hover > .tooltip,
 .tooltip.visible {
   opacity: 1;
   visibility: visible;
-
 }
 
 .tooltip > p {

@@ -11,18 +11,39 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  visibility: hidden;
 }
 
-.modal > div {
+.modal.visible {
+  visibility: visible;
+}
+
+.modal > div:first-child {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.modal > div:last-child {
   position: relative;
   width: 80%;
   z-index: 50;
   background-color: var(--color-background);
   padding: 2rem 3rem;
   padding-bottom: 4rem;
+
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.150s ease-out;
 }
 
-.modal > div > h3 {
+.modal.visible > div:last-child {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.modal > div:last-child > h3 {
   position: absolute;
   font-weight: 700;
   top: -0.5rem;

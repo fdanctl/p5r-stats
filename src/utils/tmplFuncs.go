@@ -30,11 +30,11 @@ func ToTitleCase(s string) string {
 	return strings.Join(words, " ")
 }
 
-func Dict(values ...interface{}) (map[string]interface{}, error) {
+func Dict(values ...any) (map[string]any, error) {
     if len(values)%2 != 0 {
         return nil, fmt.Errorf("dict expects even number of arguments")
     }
-    m := make(map[string]interface{}, len(values)/2)
+    m := make(map[string]any, len(values)/2)
     for i := 0; i < len(values); i += 2 {
         key, ok := values[i].(string)
         if !ok {
