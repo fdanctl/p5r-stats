@@ -289,6 +289,15 @@
   margin-top: var(--spacing-xl);
 }
 
+/* ===== CURSOR ===== */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-help {
+  cursor: help;
+}
+
 /* ===== OTHER ===== */
 .opacity-50 {
   opacity: 0.5;

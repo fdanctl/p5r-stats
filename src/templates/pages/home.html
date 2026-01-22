@@ -10,9 +10,15 @@
   <input class="input" type="text" placeholder="Title" name="title" />
   <textarea class="input" placeholder="Description" name="description" rows="5" cols="33" maxlength="200">
   </textarea>
-  <div class="flex gap-xs items-center">
+  <div class="flex gap-xs items-center cursor-help" onmouseenter="showNearestTooltip(this)" onmouseleave="hideNearestTooltip(this)">
     <h4>Stats</h4>
-    <div class="question-mark-container">{{ template "questionMarkSVG" . }}</div>
+    <div class="relative question-mark-container">
+      {{ template "questionMarkSVG" . }}
+      <div class="tooltip">
+        <p>info</p>
+        <div></div>
+      </div>
+    </div>
   </div>
   <div class="flex gap-xs">
     <select class="input" name="stat">
@@ -126,6 +132,16 @@ async function modify(id) {
     },
     body: JSON.stringify(mockBody),
   });
+}
+
+function showNearestTooltip(element) {
+  const tooltip = element.getElementsByClassName("tooltip")[0];
+  tooltip.classList.add("visible");
+}
+
+function hideNearestTooltip(element) {
+  const tooltip = element.getElementsByClassName("tooltip")[0];
+  tooltip.classList.remove("visible");
 }
 </script>
 {{ end }}
