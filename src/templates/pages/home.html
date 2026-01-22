@@ -4,7 +4,6 @@
 {{ end }}
 
 {{ define "modalTitle" }}New Activity{{ end }}
-{{ define "svgSize" }}16px{{ end }}
 {{ define "modalContent"}}
 <form>
   <input class="input" type="text" placeholder="Title" name="title" />
@@ -14,10 +13,7 @@
     <h4>Stats</h4>
     <div class="relative question-mark-container">
       {{ template "questionMarkSVG" . }}
-      <div class="tooltip">
-        <p>info</p>
-        <div></div>
-      </div>
+      {{ template "tooltip" (dict "Text" "info") }}
     </div>
   </div>
   <div class="flex gap-xs">

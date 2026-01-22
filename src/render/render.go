@@ -30,6 +30,7 @@ func Init() {
 		"upper":      utils.Upper,
 		"capitalize": utils.Capitalize,
 		"titleCase":  utils.ToTitleCase,
+		"dict":       utils.Dict,
 	}
 
 	globalPartialsSrc := fmt.Sprint(config.TmplsFolder, "partials/global/")
