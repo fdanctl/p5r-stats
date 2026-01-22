@@ -1,0 +1,16 @@
+.music-note-container {
+  height: 20px;
+  width: 20px;
+  color: var(--color-accent);
+  object-fit: contain;
+}
+
+.question-mark-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 16px;
+  width: 16px;
+  object-fit: contain;
+  opacity: 40%;
+}

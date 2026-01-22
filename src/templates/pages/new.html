@@ -1,0 +1,13 @@
+{{ define "title" }}Persona 5 Royal - New User{{ end }}
+
+{{ define "modalTitle" }}New{{ end }}
+{{ define "modalContent"}}
+<form method="post" action="/user-data">
+  <input class="input" type="text" placeholder="Name" name="name" />
+  <button class="btn-primary modal-abs-btn" type="submit">Create</button>
+</form>
+{{ end }}
+
+{{ define "content" }}
+{{ template "modal" . }}
+{{ end }}

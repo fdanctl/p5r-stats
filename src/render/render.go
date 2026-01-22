@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 
+	"github.com/fdanctl/p5r-stats/config"
 	"github.com/fdanctl/p5r-stats/src/utils"
 )
 
@@ -30,25 +32,46 @@ func Init() {
 		"titleCase":  utils.ToTitleCase,
 	}
 
+	globalPartialsSrc := fmt.Sprint(config.TmplsFolder, "partials/global/")
+	globalPartialsDir, err := os.ReadDir(globalPartialsSrc)
+	if err != nil {
+		panic(err)
+	}
+
+	var globalPartials []string
+	for _, v := range globalPartialsDir {
+		globalPartials = append(
+			globalPartials,
+			fmt.Sprint(globalPartialsSrc, v.Name()),
+		)
+	}
+
 	pages = map[page]mapValue{
 		PageHome: {
 			tmpl: template.Must(
 				template.New("").Funcs(funcs).ParseFiles(
-					"src/templates/base.html", "src/templates/home.html",
+					append([]string{
+						"src/templates/layouts/base.html",
+						"src/templates/pages/home.html",
+					}, globalPartials...)...,
 				)),
 			entry: "base.html",
 		},
 		PageNewUser: {
 			tmpl: template.Must(
 				template.New("").Funcs(funcs).ParseFiles(
-					"src/templates/base.html", "src/templates/new.html",
+					append([]string{
+						"src/templates/layouts/base.html",
+						"src/templates/pages/new.html",
+					}, globalPartials...)...,
 				)),
 			entry: "base.html",
 		},
 		PageDesignSystem: {
 			tmpl: template.Must(
 				template.New("").Funcs(funcs).ParseFiles(
-					"src/templates/base.html", "src/templates/design-system.html",
+					"src/templates/layouts/base.html",
+					"src/templates/pages/design-system.html",
 				)),
 			entry: "base.html",
 		},
