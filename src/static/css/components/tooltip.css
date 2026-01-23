@@ -21,6 +21,8 @@ div:hover > .tooltip,
 }
 
 .tooltip > p {
+  z-index: 51;
+  cursor: text;
   background-color: var(--color-foreground);
   color: var(--color-background);
   padding: 0.25rem 0.5rem;
