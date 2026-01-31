@@ -79,6 +79,12 @@ button:disabled,
   box-shadow: none !important;
 }
 
+.btn-mutted {
+  background-color: var(--color-muted);
+  color: var(--color-foreground);
+  border-color: transparent;
+}
+
 .btn-destructive {
   background-color: var(--color-error);
   color: white;

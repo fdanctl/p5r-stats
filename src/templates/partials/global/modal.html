@@ -1,7 +1,7 @@
 {{ define "modal" }}
-<div id={{.Id}} class="modal{{ if .Show }} visible{{ end }}" >
+<div id={{.Id}} class="modalOverlay{{ if .Show }} visible{{ end }}{{ .class }}" >
   <div onclick="toggleModal(event.target.parentElement.id)"></div>
-  <div>
+  <div class="modal{{ with .Class }} {{ . }}{{ end }}">
     <h3>{{ .Title }}</h3>
     <div>
       {{ if eq .Content "activity"}}
@@ -9,7 +9,9 @@
       {{ else if eq .Content "newUser" }}
         {{ template "formNewUser" }}
       {{ else if eq .Content "settings" }}
-        {{ template "formSettings" }}
+        {{ template "settings" . }}
+      {{ else if eq .Content "confirmation" }}
+        {{ template "confirmation" . }}
       {{ else }}
         <h1>hello</h1>
       {{ end }}
@@ -30,8 +32,8 @@
   <input class="input" type="text" placeholder="Title" name="title" />
   <textarea class="input" placeholder="Description" name="description" rows="5" cols="33" maxlength="200">
   </textarea>
-  <div class="flex gap-xs items-center cursor-help w-fit" onmouseenter="showNearestTooltip(this)"
-    onmouseleave="hideNearestTooltip(this)">
+  <div class="flex gap-xs items-center cursor-help w-fit" onmouseenter="showFirstChildTooltip(this)"
+    onmouseleave="hideFirstChildTooltip(this)">
     <h4>Stats</h4>
     <div class="relative question-mark-container">
       {{ template "questionMarkSVG" . }} {{ template "tooltip" (dict "Text"
@@ -54,9 +56,34 @@
 </form>
 {{end}}
 
-{{ define "formSettings"}}
-<form method="post">
-  <h3>Settings</h3>
-  <button class="btn-primary modal-abs-btn" type="submit">yoo</button>
-</form>
+{{ define "settings"}}
+<div>
+  <div class="flex gap-sm items-center">
+    <label for="lang">Language:</label>
+    <select class="input w-fit p-sm" name="lang" id="lang">
+      <option value="en">EN</option>
+      <option value="jp">JP</option>
+      <option value="pt">PT</option>
+    </select>
+  </div>
+  <div class="flex gap-sm items-center">
+    <button class="btn-ghost" onclick="console.log('TODO')">Export PDF</button>
+    <button class="btn-ghost" onclick="console.log('TODO')">Export Excel</button>
+  </div>
+  <div>
+    <button class="btn-destructive" onclick="toggleModal('confirm-test')">Delete Data</button>
+  </div>
+  <button data-id="{{ .Id }}" class="btn-primary modal-abs-btn" onclick="toggleModal(this.dataset.id)">close</button>
+</div>
+{{ end }}
+
+{{ define "confirmation" }}
+<div>
+  <h3>Are you sure you want to perform this action?</h3>
+  <p class="text-subtitle">This can't be undone</p>
+  <div class="flex justify-end items-center">
+    <button data-id="{{ .Id }}" class="btn-ghost" onclick="toggleModal(this.dataset.id)">No</button>
+    <button class class="btn-ghost" onclick="console.log('TODO')">Yes</button>
+  </div>
+</div>
 {{ end }}

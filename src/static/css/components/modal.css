@@ -1,4 +1,4 @@
-.modal {
+.modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -15,35 +15,39 @@
   visibility: hidden;
 }
 
-.modal.visible {
+.modalOverlay.visible {
   visibility: visible;
 }
 
-.modal > div:first-child {
+.modalOverlay > div:first-child {
   width: 100%;
   height: 100%;
   position: absolute;
 }
 
-.modal > div:last-child {
+.modal {
   position: relative;
   width: 80%;
   z-index: 50;
   background-color: var(--color-background);
   padding: 2rem 3rem;
-  padding-bottom: 4rem;
 
   transform: scale(0);
   opacity: 0;
   transition: transform 0.150s ease-out;
 }
 
-.modal.visible > div:last-child {
+.modalOverlay.visible > .modal {
   transform: scale(1);
   opacity: 1;
 }
 
-.modal > div:last-child > h3 {
+.modal.fit {
+  width: fit-content;
+  max-width: 80%;
+}
+
+.modal > h3 {
   position: absolute;
   font-weight: 700;
   top: -0.5rem;
@@ -53,6 +57,10 @@
   background-color: var(--color-foreground);
   color: var(--color-background);
   width: fit-content;
+}
+
+.modal:has(.modal-abs-btn) {
+  padding-bottom: 4rem;
 }
 
 .modal .modal-abs-btn {

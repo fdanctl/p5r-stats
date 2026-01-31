@@ -2,6 +2,7 @@
 
 {{ define "extraCSS"}}
 <link href="/static/css/components/svg.css" rel="stylesheet" />
+<link href="/static/css/pages/home.css" rel="stylesheet" />
 {{ end }}
 
 {{ define "scripts" }}
@@ -10,105 +11,30 @@
 {{ end }}
 
 {{ define "content" }}
-<button onclick="deleteUserData()">Delete</button>
-<button onclick="insertAcitivity()">New Activity</button>
-<button onclick="modify()">Modify</button>
-<h1>{{ .Name }}</h1>
-<h3>Stats</h3>
-<ul>
-  <li>Knowledge: {{ .Stats.Knowledge }}</li>
-  <li>Guts: {{.Stats.Guts}}</li>
-  <li>Proficiency: {{ .Stats.Proficiency }}</li>
-  <li>Kindness: {{ .Stats.Kindness }}</li>
-  <li>Charm: {{ .Stats.Charm }}</li>
-</ul>
-<h3>Log</h3>
-<ul>
-  {{ range .Activities }}
-  <li data-id="{{.Id}}" onclick="remove(this.dataset.id)">
-    <div class="flex">
-      <p>{{ .Title }}</p>
-      <p>{{ .Date }}</p>
+<div class="userHeader">
+  <div class="pfp" onclick="openFirstChildFileInput(this)">
+    <img src="/assets/pfp.png" alt="profile picture" />
+    <button class="btn-mutted btn-icon rounded">
+      {{ template "pencilSVG" }}
+    </button>
+    <input id="pfpChange" name="pfp" class="hidden" type="file" />
+  </div>
+  <form class="editUsername">
+    <div class="username">
+      <h1>{{ .Name }}</h1>
+      {{ template "pencilSVG" }}
     </div>
-    <ul>
-      {{ range .IncreasedStats }}
-      <li>
-        <p>{{ .Stat }}</p>
-        <p>{{ .Points }}</p>
-      </li>
-      {{ end }}
-    </ul>
-  </li>
-  {{ end }}
-</ul>
-{{ template "modal" (dict
-  "Id"      "add-activity"
-  "Title"   "Add Activity"
-  "Content" "activity"
-)}}
+    <div class="flex gap-sm justify-end">
+      <button class="btn-outline">Edit</button>
+      <button class="btn-destructive">Cancel</button>
+    </div>
+  </form>
+</div>
+
 <script>
-// TODO: .js file
-async function remove(id) {
-  await fetch(`/activity/${id}`, {
-    method: "DELETE",
-  });
-}
-
-async function deleteUserData() {
-  await fetch("/user-data", {
-    method: "DELETE",
-  });
-}
-
-async function insertAcitivity() {
-  const mockBody = {
-    title: "hello",
-    description: "hello2",
-    increased_stats: [
-      {
-        stat: "guts",
-        points: 1,
-      },
-      {
-        stat: "proficiency",
-        points: 1,
-      },
-    ],
-  };
-  await fetch("/activity", {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(mockBody),
-  });
-}
-
-async function modify(id) {
-  const mockBody = {
-    title: "modTitle",
-    // description: "modDesc",
-    // increased_stats: [
-    //   {
-    //     stat: "guts",
-    //     points: 10,
-    //   },
-    //   {
-    //     stat: "proficiency",
-    //     points: 10,
-    //   },
-    // ],
-    date: "1991-12-21"
-  };
-  await fetch("/activity/123", {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(mockBody),
-  });
+function openFirstChildFileInput(element) {
+  const fileInput = element.getElementsByTagName("input")[0]
+  fileInput.click()
 }
 </script>
 {{ end }}

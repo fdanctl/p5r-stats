@@ -1,0 +1,60 @@
+.userHeader {
+  display: flex;
+  gap: 1rem;
+}
+
+.pfp {
+  position: relative;
+  width: 10rem;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  border: 5px solid var(--color-accent);
+}
+
+.pfp > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pfp > button {
+  visibility: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pfp:hover > button {
+  visibility: visible;
+}
+
+.editUsername {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.username {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+  color: var(--color-foreground);
+  cursor: pointer;
+  height: fit-content;
+}
+
+.username > svg {
+  visibility: hidden;
+  width: 1.5rem;
+}
+
+.username:hover > svg {
+  visibility: visible;
+}

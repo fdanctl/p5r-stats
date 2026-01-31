@@ -20,6 +20,13 @@ func main() {
 			http.FileServer(http.Dir("src/static")),
 		),
 	)
+	http.Handle(
+		"/assets/",
+		http.StripPrefix(
+			"/assets/",
+			http.FileServer(http.Dir("assets/")),
+		),
+	)
 	http.HandleFunc("/", handlers.HomeHandler)
 	http.HandleFunc("/user-data", handlers.UserDataHandler)
 	http.HandleFunc("/activity", handlers.ActivityHandler)
