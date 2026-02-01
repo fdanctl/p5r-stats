@@ -67,13 +67,13 @@
 <script>
 // TODO: .js file
 async function remove(id) {
-  await fetch(`/activity/${id}`, {
+  await fetch(`/api/activity/${id}`, {
     method: "DELETE",
   });
 }
 
 async function deleteUserData() {
-  await fetch("/user-data", {
+  await fetch("/api/user-data", {
     method: "DELETE",
   });
 }
@@ -93,7 +93,7 @@ async function insertAcitivity() {
       },
     ],
   };
-  await fetch("/activity", {
+  await fetch("/api/activity", {
     method: "POST",
     credentials: "include",
     headers: {
@@ -119,7 +119,7 @@ async function modify(id) {
     // ],
     date: "1991-12-21"
   };
-  await fetch("/activity/123", {
+  await fetch("/api/activity/123", {
     method: "POST",
     credentials: "include",
     headers: {
