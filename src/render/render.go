@@ -14,6 +14,7 @@ type page uint8
 
 const (
 	PageHome page = iota
+	Page404
 	PageNewUser
 	PageDesignSystem
 	PageTest
@@ -84,6 +85,14 @@ func Init() {
 						"src/templates/layouts/base.html",
 						"src/templates/pages/test.html",
 					}, globalPartials...)...,
+				)),
+			entry: "base.html",
+		},
+		Page404: {
+			tmpl: template.Must(
+				template.ParseFiles(
+					"src/templates/layouts/base.html",
+					"src/templates/pages/404.html",
 				)),
 			entry: "base.html",
 		},

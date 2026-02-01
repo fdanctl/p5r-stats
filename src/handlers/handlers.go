@@ -26,6 +26,12 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 
 	case http.MethodGet:
+		if r.URL.Path != "/" {
+			render.HTML(w, render.Page404, nil)
+			// http.NotFound(w, r)
+			return
+		}
+
 		userData, err := services.ReadUserData()
 
 		if err != nil {
