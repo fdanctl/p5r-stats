@@ -8,33 +8,28 @@
 {{ define "scripts" }}
 <script src="/static/js/modal.js" defer></script>
 <script src="/static/js/tooltip.js" defer></script>
+<script src="/static/js/home.js" defer></script>
 {{ end }}
 
 {{ define "content" }}
-<div class="userHeader">
-  <div class="pfp" onclick="openFirstChildFileInput(this)">
+<form id="userInfo" class="userHeader">
+  <div id="pfp" class="pfp">
     <img src="/assets/pfp.png" alt="profile picture" />
-    <button class="btn-mutted btn-icon rounded">
+    <button id="pfpEditBtn" class="btn-mutted btn-icon rounded" type="button">
       {{ template "pencilSVG" }}
     </button>
     <input id="pfpChange" name="pfp" class="hidden" type="file" />
   </div>
-  <form class="editUsername">
+  <div class="editUsername">
     <div class="username">
       <h1>{{ .Name }}</h1>
+      <input id="nameInput" name="name" class="input hidden" value="{{ .Name }}" />
       {{ template "pencilSVG" }}
     </div>
-    <div class="flex gap-sm justify-end">
-      <button class="btn-outline">Edit</button>
-      <button class="btn-destructive">Cancel</button>
+    <div id="formBtns">
+      <button class="btn-outline" type="submit">Edit</button>
+      <button class="btn-destructive" type="reset">Cancel</button>
     </div>
-  </form>
-</div>
-
-<script>
-function openFirstChildFileInput(element) {
-  const fileInput = element.getElementsByTagName("input")[0]
-  fileInput.click()
-}
-</script>
+  </div>
+</form>
 {{ end }}

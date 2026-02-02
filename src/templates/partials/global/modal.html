@@ -21,7 +21,7 @@
 {{ end }}
 
 {{ define "formNewUser"}}
-<form method="post" action="/user-data">
+<form method="post" action="/api/user-data">
   <input class="input" type="text" placeholder="Name" name="name" />
   <button class="btn-primary modal-abs-btn" type="submit">Create</button>
 </form>
@@ -30,8 +30,7 @@
 {{define "formActivity"}}
 <form>
   <input class="input" type="text" placeholder="Title" name="title" />
-  <textarea class="input" placeholder="Description" name="description" rows="5" cols="33" maxlength="200">
-  </textarea>
+  <textarea class="input" placeholder="Description" name="description" rows="5" cols="33" maxlength="200"></textarea>
   <div class="flex gap-xs items-center cursor-help w-fit" onmouseenter="showFirstChildTooltip(this)"
     onmouseleave="hideFirstChildTooltip(this)">
     <h4>Stats</h4>

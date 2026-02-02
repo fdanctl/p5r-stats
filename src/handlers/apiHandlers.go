@@ -31,7 +31,24 @@ func UserDataHandler(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 
 	case http.MethodPatch:
-		fmt.Println("modify user data. soon")
+		// fmt.Println("modify user data. soon")
+		fmt.Printf("r.Header.Get(\"Content-Type\"): %v\n", r.Header.Get("Content-Type"))
+
+		// 10 MB max
+		if err := r.ParseMultipartForm(10 << 20); err != nil {
+			http.Error(w, "bad form", http.StatusBadRequest)
+			return
+		}
+
+		pfp, ok := r.MultipartForm.File["pfp"]
+		fmt.Println("pfp:", ok)
+
+		// name := r.Form.Get("name")
+		name, ok := r.MultipartForm.Value["name"]
+		fmt.Println("name:", ok)
+
+		fmt.Println("pfp:", pfp)
+		fmt.Println("name:", name)
 
 	case http.MethodDelete:
 		err := services.DeleteUserData()
