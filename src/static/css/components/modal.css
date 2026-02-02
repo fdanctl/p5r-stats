@@ -63,9 +63,19 @@
   padding-bottom: 4rem;
 }
 
-.modal .modal-abs-btn {
+.modal-abs-btn {
+  clip-path: polygon(5% 30%, 100% 0, 85% 100%, 0 70%);
   position: absolute;
   right: 0;
   bottom: 1rem;
-  transform: translateX(60%);
+  transform: translateX(60%) rotate(-30deg);
+  padding: 0.75rem 1.25rem;
+  animation: bounce-modal-btn 1.5s infinite;
+}
+
+.modal-abs-btn:focus,
+.modal-abs-btn:hover:not(:disabled) {
+  padding: calc(0.75rem + 5px) calc(1.25rem + 5px);
+  font-weight: 900;
+  animation: none;
 }

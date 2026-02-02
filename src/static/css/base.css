@@ -94,6 +94,7 @@ textarea {
 
   /* Shadows */
   --shadow-focus: 0 0 0 5px rgba(0, 0, 0, 1);
+  --shadow-focus-white: 0 0 0 5px rgba(255, 255, 255, 1);
   --shadow-focus-error: 0 0 0 5px var(--color-error-hover);
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md:
@@ -202,4 +203,16 @@ hr,
   background-color: var(--color-border);
   border: none;
   margin: var(--spacing-md) 0;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes bounce-modal-btn {
+  0%, 100% {
+    transform: translateX(60%) rotate(-30deg);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translate(50%, 15%) rotate(-30deg);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
 }

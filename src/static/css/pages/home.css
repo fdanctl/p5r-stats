@@ -1,13 +1,19 @@
-.userHeader {
+#userHeader {
+  display: flex;
+  justify-content: space-between;
+  /* gap: 0; */
+  width: 100%;
+}
+
+#userInfo {
   display: flex;
   gap: 1rem;
 }
 
 .pfp {
   position: relative;
-  width: 10rem;
+  width: 15rem;
   aspect-ratio: 1/1;
-  overflow: hidden;
   cursor: pointer;
   padding: 0;
   margin: 0;
@@ -41,7 +47,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 100%;
 }
 
 #nameInput {
@@ -79,5 +84,23 @@
 }
 
 #formBtns.visible {
+  display: flex;
+}
+
+.activity-card {
+  border: 1px solid black;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.activity-card h4 {
+  margin-bottom: 0.25rem;
+}
+
+.activity-card > ul > li {
   display: flex;
 }

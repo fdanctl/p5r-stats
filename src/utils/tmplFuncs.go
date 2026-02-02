@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"strings"
+	"time"
 	"unicode"
 )
 
@@ -39,6 +40,19 @@ func PadLeft(s string, d int) string {
 		return s
 	}
 	return PadLeft("0"+s, d)
+}
+
+// TimeToString return a date string in "Friday, 2 January, 2026" format.
+func TimeToString(date time.Time) string {
+	weekday := date.Weekday().String()
+	month := date.Month().String()
+	day := date.Day()
+	year := date.Year()
+
+	return fmt.Sprintf(
+		"%s, %d %s, %d",
+		weekday, day, month, year,
+	)
 }
 
 // Dict creates a dictionary from an even number of key-value pairs.

@@ -29,10 +29,11 @@ var pages map[page]mapValue
 
 func Init() {
 	funcs := template.FuncMap{
-		"upper":      utils.Upper,
-		"capitalize": utils.Capitalize,
-		"titleCase":  utils.ToTitleCase,
-		"dict":       utils.Dict,
+		"upper":        utils.Upper,
+		"capitalize":   utils.Capitalize,
+		"titleCase":    utils.ToTitleCase,
+		"timeToString": utils.TimeToString,
+		"dict":         utils.Dict,
 	}
 
 	globalPartialsSrc := fmt.Sprint(config.TmplsFolder, "partials/global/")
