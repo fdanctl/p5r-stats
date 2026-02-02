@@ -36,7 +36,7 @@ func UserDataHandler(w http.ResponseWriter, r *http.Request) {
 
 		// 10 MB max
 		if err := r.ParseMultipartForm(10 << 20); err != nil {
-			http.Error(w, "bad form", http.StatusBadRequest)
+			http.Error(w, "Bad Form", http.StatusBadRequest)
 			return
 		}
 

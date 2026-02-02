@@ -43,6 +43,12 @@ fileInput.addEventListener("change", () => {
   const file = fileInput.files[0];
   if (!file) return;
 
+  if (file.size > 10 * 1024 * 1024) {
+    console.warn("file size to large");
+    sendToast("error", "file size to large");
+    return;
+  }
+
   const url = URL.createObjectURL(file);
   pfpImg.src = url;
 

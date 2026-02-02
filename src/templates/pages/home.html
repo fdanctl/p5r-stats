@@ -2,6 +2,7 @@
 
 {{ define "extraCSS"}}
 <link href="/static/css/components/svg.css" rel="stylesheet" />
+<link href="/static/css/components/toast.css" rel="stylesheet" />
 <link href="/static/css/pages/home.css" rel="stylesheet" />
 {{ end }}
 
@@ -9,6 +10,7 @@
 <script src="/static/js/modal.js" defer></script>
 <script src="/static/js/tooltip.js" defer></script>
 <script src="/static/js/home.js" defer></script>
+<script src="/static/js/toast.js" defer></script>
 {{ end }}
 
 {{ define "content" }}
@@ -18,7 +20,7 @@
     <button id="pfpEditBtn" class="btn-mutted btn-icon rounded" type="button">
       {{ template "pencilSVG" }}
     </button>
-    <input id="pfpChange" name="pfp" class="hidden" type="file" />
+    <input id="pfpChange" name="pfp" class="hidden" type="file" accept="image/*" />
   </div>
   <div class="editUsername">
     <div class="username">
@@ -32,4 +34,7 @@
     </div>
   </div>
 </form>
+
+<!-- Toast block -->
+<div id="toast-container"></div>
 {{ end }}

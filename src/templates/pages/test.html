@@ -2,11 +2,13 @@
 
 {{ define "extraCSS"}}
 <link href="/static/css/components/svg.css" rel="stylesheet" />
+<link href="/static/css/components/toast.css" rel="stylesheet" />
 {{ end }}
 
 {{ define "scripts" }}
 <script src="/static/js/modal.js" defer></script>
 <script src="/static/js/tooltip.js" defer></script>
+<script src="/static/js/toast.js" defer></script>
 {{ end }}
 
 {{ define "content" }}
@@ -64,6 +66,13 @@
   "Title"   "Add Activity"
   "Content" "activity"
 )}}
+<div>
+  <button class="btn" onclick="sendToast('success', 'success message')">success</button>
+  <button class="btn" onclick="sendToast('warning', 'warning message')">warning</button>
+  <button class="btn" onclick="sendToast('error', 'error message')">error</button>
+</div>
+<!-- Toast block -->
+<div id="toast-container"></div>
 <script>
 // TODO: .js file
 async function remove(id) {
