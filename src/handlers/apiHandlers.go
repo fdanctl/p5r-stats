@@ -8,45 +8,11 @@ import (
 
 	"github.com/fdanctl/p5r-stats/src/middleware"
 	"github.com/fdanctl/p5r-stats/src/models"
-	"github.com/fdanctl/p5r-stats/src/render"
 	"github.com/fdanctl/p5r-stats/src/services"
 )
 
-func UserDataHandler(w http.ResponseWriter, r *http.Request) {
+func UserDataHandlerAPI(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
-
-	case http.MethodPost:
-		err := r.ParseForm()
-		if err != nil {
-			http.Error(w, "Bad Form", http.StatusBadRequest)
-			return
-		}
-
-		userData, err := services.CreateUserData(r.Form.Get("name"))
-		if err != nil {
-			fmt.Println(err)
-			if errors.Is(err, models.ErrAlreadyExists) {
-				http.Error(w, "User data found", http.StatusBadRequest)
-				return
-			}
-		}
-
-		stats := services.ComputeStats(userData.Activities)
-
-		data := models.HomePageData{
-			UserData: *userData,
-			Stats: models.Stats{
-				Knowledge:   stats[models.Knowledge],
-				Guts:        stats[models.Guts],
-				Proficiency: stats[models.Proficiency],
-				Kindness:    stats[models.Kindness],
-				Charm:       stats[models.Charm],
-			},
-		}
-		
-		render.HTML(w, render.FragmentHome, data)
-
-		// http.Redirect(w, r, "/", http.StatusSeeOther)
 
 	case http.MethodPatch:
 		// fmt.Println("modify user data. soon")
@@ -81,7 +47,7 @@ func UserDataHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func ActivityHandler(w http.ResponseWriter, r *http.Request) {
+func ActivityHandlerAPI(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 
 	case http.MethodPost:
@@ -118,7 +84,7 @@ func ActivityHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func ActivityIdHandler(w http.ResponseWriter, r *http.Request) {
+func ActivityIdHandlerAPI(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Path[len("/api/activity/"):]
 
 	switch r.Method {

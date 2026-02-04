@@ -15,7 +15,7 @@
 {{ define "username" }}
 <div 
   class="username"
-  hx-get="/user/edit/{{ .Name }}"
+  hx-get="/partials/user/edit/{{ .Name }}"
   hx-swap="outerHTML"
 >
   <h1>{{ .Name }}</h1>
@@ -45,7 +45,7 @@
     <button 
       class="btn-destructive" 
       type="reset"
-      hx-get="/user/edit-cancel/{{ .Name }}"
+      hx-get="/partials/user/edit-cancel/{{ .Name }}"
       hx-swap="outerHTML"
       hx-target=".edit-username"
     >
@@ -70,7 +70,7 @@
       type="file" 
       accept="image/*" 
 
-      hx-get="/user/edit/{{ .Name }}"
+      hx-get="partials/user/edit/{{ .Name }}"
       hx-swap="outerHTML"
       hx-target=".username"
     />

@@ -7,13 +7,14 @@ import (
 
 	"github.com/fdanctl/p5r-stats/config"
 	"github.com/fdanctl/p5r-stats/src/handlers"
+	"github.com/fdanctl/p5r-stats/src/middleware"
 	"github.com/fdanctl/p5r-stats/src/render"
 )
 
 func main() {
 	render.Init()
-	webMux := http.NewServeMux()
 
+	webMux := http.NewServeMux() // returns full HTML page
 	webMux.Handle(
 		"/static/",
 		http.StripPrefix(
@@ -28,18 +29,28 @@ func main() {
 			http.FileServer(http.Dir("assets/")),
 		),
 	)
-
 	webMux.HandleFunc("/", handlers.HomeHandler)
 	webMux.HandleFunc("/design-system", handlers.DesignHandler)
 	webMux.HandleFunc("/test", handlers.TestHandler)
 
-	webMux.HandleFunc("/user/edit/", handlers.UserFormHandler)
-	webMux.HandleFunc("/user/edit-cancel/", handlers.UserInfoHandler)
+	partialsMux := http.NewServeMux() // returns HTMX fragment
+	partialsMux.HandleFunc(
+		"/partials/user-data",
+		middleware.RequireHTMX(handlers.UserDataHandler),
+	)
+	partialsMux.HandleFunc(
+		"/partials/user/edit/",
+		middleware.RequireHTMX(handlers.UserFormHandler),
+	)
+	partialsMux.HandleFunc(
+		"/partials/user/edit-cancel/",
+		middleware.RequireHTMX(handlers.UserInfoHandler),
+	)
 
-	apiMux := http.NewServeMux()
-	apiMux.HandleFunc("/api/user-data", handlers.UserDataHandler)
-	apiMux.HandleFunc("/api/activity", handlers.ActivityHandler)
-	apiMux.HandleFunc("/api/activity/", handlers.ActivityIdHandler)
+	apiMux := http.NewServeMux() // returns json
+	apiMux.HandleFunc("/api/user-data", handlers.UserDataHandlerAPI)
+	apiMux.HandleFunc("/api/activity", handlers.ActivityHandlerAPI)
+	apiMux.HandleFunc("/api/activity/", handlers.ActivityIdHandlerAPI)
 
 	fmt.Println("Server running at http://localhost:" + config.ServerPort)
 
@@ -60,6 +71,7 @@ func main() {
 
 	rootMux := http.NewServeMux()
 	rootMux.Handle("/", webMux)
+	rootMux.Handle("/partials/", partialsMux)
 	rootMux.Handle("/api/", apiMux)
 
 	http.ListenAndServe(":"+config.ServerPort, rootMux)
