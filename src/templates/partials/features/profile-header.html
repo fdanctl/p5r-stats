@@ -19,7 +19,7 @@
   hx-swap="outerHTML"
 >
   <h1>{{ .Name }}</h1>
-  {{ template "pencilSVG" }}
+  {{ template "pencil-svg" }}
 </div>
 {{ end }}
 
@@ -34,7 +34,7 @@
       autocomplete="false" 
       required
     />
-    {{ template "pencilSVG" }}
+    {{ template "pencil-svg" }}
   </div>
   <div id="form-btns">
     <button 
@@ -62,7 +62,7 @@
 >
   <img src="/assets/pfp.png" alt="profile picture" />
   <button class="btn-mutted btn-icon rounded" type="button">
-    {{ template "pencilSVG" }}
+    {{ template "pencil-svg" }}
   </button>
   <input 
       id="pfpChange" 

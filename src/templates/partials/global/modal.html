@@ -5,9 +5,9 @@
     <h3>{{ .Title }}</h3>
     <div>
       {{ if eq .Content "activity"}}
-        {{ template "formActivity" }}
-      {{ else if eq .Content "newUser" }}
-        {{ template "formNewUser" }}
+        {{ template "form-activity" }}
+      {{ else if eq .Content "new-user" }}
+        {{ template "form-new-user" }}
       {{ else if eq .Content "settings" }}
         {{ template "settings" . }}
       {{ else if eq .Content "confirmation" }}
@@ -20,7 +20,7 @@
 </div>
 {{ end }}
 
-{{ define "formNewUser"}}
+{{ define "form-new-user"}}
 <form
   hx-on:submit:="(event) => event.preventDefault()"
   hx-validate="true"
@@ -38,7 +38,7 @@
 </form>
 {{ end }}
 
-{{define "formActivity"}}
+{{define "form-activity"}}
 <form>
   <input class="input" type="text" placeholder="Title" name="title" />
   <textarea
@@ -67,7 +67,7 @@
     </select>
     <input class="input" type="number" min="1" max="10" name="points" value="1" />
   </div>
-  <div class="music-note-container">{{ template "musicNoteSVG" . }}</div>
+  <div class="music-note-container">{{ template "music-note-svg" . }}</div>
   <button class="btn-secondary modal-abs-btn" type="reset">reset</button>
 </form>
 {{end}}

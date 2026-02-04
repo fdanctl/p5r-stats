@@ -35,13 +35,13 @@
           <p>{{ .Stat }}</p>
           <div class="flex gap-xs items-center">
           {{ if ge .Points 1}}
-            <div class="music-note-container">{{ template "musicNoteSVG" . }}</div>
+            <div class="music-note-container">{{ template "music-note-svg" . }}</div>
           {{ end }}
           {{ if ge .Points 4}}
-            <div class="music-note-container">{{ template "musicNoteSVG" . }}</div>
+            <div class="music-note-container">{{ template "music-note-svg" . }}</div>
           {{ end }}
           {{ if ge .Points 7}}
-            <div class="music-note-container">{{ template "musicNoteSVG" . }}</div>
+            <div class="music-note-container">{{ template "music-note-svg" . }}</div>
           {{ end }}
           </div>
         </li>
@@ -62,7 +62,7 @@
 {{ template "modal" (dict
   "Id"      "new-user-modal"
   "Title"   "New User"
-  "Content" "newUser"
+  "Content" "new-user"
   "Show"    true
 )}}
 {{ end}}
