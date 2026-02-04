@@ -1,4 +1,33 @@
 /* Input */
+.input-group {
+  position: relative;
+}
+
+.input-group > i {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  height: 16px;
+  width: 16px;
+  color: var(--color-error);
+  object-fit: contain;
+}
+
+.input-group > span {
+  display: none;
+  position: absolute;
+  bottom: -0.75rem;
+  left: 1rem;
+  color: var(--color-error);
+  font-size: 0.75rem;
+  line-height: 0;
+}
+
 .input {
   display: block;
   width: 100%;
@@ -31,9 +60,16 @@
   color: var(--color-muted-foreground);
 }
 
-.input:invalid,
-.input.error {
+.input.touched:invalid:not(:focus) {
   border-color: var(--color-error);
+}
+
+.input.touched:invalid:not(:focus) ~ i {
+  display: flex;
+}
+
+.input.touched:invalid:not(:focus) ~ span {
+  display: block;
 }
 
 /* Icon Container */

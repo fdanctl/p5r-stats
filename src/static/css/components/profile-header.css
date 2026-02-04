@@ -72,8 +72,11 @@
 
 .username > svg,
 .username2 > svg {
-  visibility: hidden;
   width: 1.5rem;
+}
+
+.username > svg {
+  visibility: hidden;
 }
 
 #user-info-form #pfp > button,

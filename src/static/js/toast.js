@@ -59,3 +59,11 @@ function sendToast(type, msg) {
   toast.onmouseleave = start;
   toast.onclick = finish;
 }
+
+document.body.addEventListener("htmx:responseError", (e) => {
+  const msg = e.detail.xhr.response.split('\n')
+  for (let i = msg.length - 1; i >= 0; i--) {
+  sendToast("error", msg[i]);
+  }
+  // sendToast("error", e.detail.xhr.response);
+});

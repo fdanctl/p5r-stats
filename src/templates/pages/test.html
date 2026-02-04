@@ -3,139 +3,56 @@
 {{ define "extraCSS"}}
 <link href="/static/css/components/svg.css" rel="stylesheet" />
 <link href="/static/css/components/toast.css" rel="stylesheet" />
+<style>
+.input-group {
+  position: relative;
+  display: inline-block;
+  width: 300px;
+}
+
+.icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background: #666;
+  border-radius: 3px;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.input:invalid:focus {
+  border-color: var(--color-error, #dc3545);
+}
+</style>
 {{ end }}
 
 {{ define "scripts" }}
+<script src="/static/js/input.js" defer></script>
 <script src="/static/js/modal.js" defer></script>
 <script src="/static/js/tooltip.js" defer></script>
+<script src="/static/js/home.js" defer></script>
 <script src="/static/js/toast.js" defer></script>
+<script src="/static/js/utils.js" defer></script>
 {{ end }}
 
 {{ define "content" }}
-<button onclick="toggleModal('activity-test')">Open</button>
-<button onclick="toggleModal('settings-test')">settings</button>
-{{ template "modal" (dict
-  "Id"      "activity-test"
-  "Title"   "world"
-  "Content" "activity"
-)}}
-{{ template "modal" (dict
-  "Id"      "settings-test"
-  "Title"   "world"
-  "Content" "settings"
-)}}
-{{ template "modal" (dict
-  "Id"      "confirm-test"
-  "Title"   "Warning"
-  "Content" "confirmation"
-  "Class"   "fit"
-)}}
-<button onclick="deleteUserData()">Delete</button>
-<button onclick="insertAcitivity()">New Activity</button>
-<button onclick="modify()">Modify</button>
-<h1>{{ .Name }}</h1>
-<h3>Stats</h3>
-<ul>
-  <li>Knowledge: {{ .Stats.Knowledge }}</li>
-  <li>Guts: {{.Stats.Guts}}</li>
-  <li>Proficiency: {{ .Stats.Proficiency }}</li>
-  <li>Kindness: {{ .Stats.Kindness }}</li>
-  <li>Charm: {{ .Stats.Charm }}</li>
-</ul>
-<h3>Log</h3>
-<ul>
-  {{ range .Activities }}
-  <li data-id="{{.Id}}" onclick="remove(this.dataset.id)">
-    <div class="flex">
-      <p>{{ .Title }}</p>
-      <p>{{ .Date }}</p>
-    </div>
-    <ul>
-      {{ range .IncreasedStats }}
-      <li>
-        <p>{{ .Stat }}</p>
-        <p>{{ .Points }}</p>
-      </li>
-      {{ end }}
-    </ul>
-  </li>
-  {{ end }}
-</ul>
-{{ template "modal" (dict
-  "Id"      "add-activity"
-  "Title"   "Add Activity"
-  "Content" "activity"
-)}}
-<div>
-  <button class="btn" onclick="sendToast('success', 'success message')">success</button>
-  <button class="btn" onclick="sendToast('warning', 'warning message')">warning</button>
-  <button class="btn" onclick="sendToast('error', 'error message')">error</button>
+<div class="input-group">
+  <input class="input" type="email" placeholder="Enter email" required>
+  <span class="error" style="color: red; font-size: 14px; display: block;">error</span>
 </div>
-<!-- Toast block -->
-<div id="toast-container"></div>
-<script>
-// TODO: .js file
-async function remove(id) {
-  await fetch(`/api/activity/${id}`, {
-    method: "DELETE",
-  });
-}
-
-async function deleteUserData() {
-  await fetch("/api/user-data", {
-    method: "DELETE",
-  });
-}
-
-async function insertAcitivity() {
-  const mockBody = {
-    title: "hello",
-    description: "hello2",
-    increased_stats: [
-      {
-        stat: "guts",
-        points: 1,
-      },
-      {
-        stat: "proficiency",
-        points: 1,
-      },
-    ],
-  };
-  await fetch("/api/activity", {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(mockBody),
-  });
-}
-
-async function modify(id) {
-  const mockBody = {
-    title: "modTitle",
-    // description: "modDesc",
-    // increased_stats: [
-    //   {
-    //     stat: "guts",
-    //     points: 10,
-    //   },
-    //   {
-    //     stat: "proficiency",
-    //     points: 10,
-    //   },
-    // ],
-    date: "1991-12-21"
-  };
-  await fetch("/api/activity/123", {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(mockBody),
-  });
-}
-</script>
 {{ end }}
