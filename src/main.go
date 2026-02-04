@@ -33,6 +33,9 @@ func main() {
 	webMux.HandleFunc("/design-system", handlers.DesignHandler)
 	webMux.HandleFunc("/test", handlers.TestHandler)
 
+	webMux.HandleFunc("/user/edit/", handlers.UserFormHandler)
+	webMux.HandleFunc("/user/edit-cancel/", handlers.UserInfoHandler)
+
 	apiMux := http.NewServeMux()
 	apiMux.HandleFunc("/api/user-data", handlers.UserDataHandler)
 	apiMux.HandleFunc("/api/activity", handlers.ActivityHandler)

@@ -3,6 +3,7 @@
 {{ define "extraCSS"}}
 <link href="/static/css/components/svg.css" rel="stylesheet" />
 <link href="/static/css/components/toast.css" rel="stylesheet" />
+<link href="/static/css/components/profile-header.css" rel="stylesheet" />
 <link href="/static/css/pages/home.css" rel="stylesheet" />
 {{ end }}
 
@@ -14,36 +15,8 @@
 {{ end }}
 
 {{ define "content" }}
-<section id="userHeader">
-  <form id="userInfo">
-    <div id="pfp" class="pfp">
-      <img src="/assets/pfp.png" alt="profile picture" />
-      <button id="pfpEditBtn" class="btn-mutted btn-icon rounded" type="button">
-        {{ template "pencilSVG" }}
-      </button>
-      <input id="pfpChange" name="pfp" class="hidden" type="file" accept="image/*" />
-    </div>
-    <div class="editUsername">
-      <div class="username">
-        <h1>{{ .Name }}</h1>
-        <input id="nameInput" name="name" class="input hidden" value="{{ .Name }}" />
-        {{ template "pencilSVG" }}
-      </div>
-      <div id="formBtns">
-        <button class="btn-secondary" type="submit">Edit</button>
-        <button class="btn-destructive" type="reset">Cancel</button>
-      </div>
-    </div>
-  </form>
-  <ul>
-    <li>Knowledge: {{ .Stats.Knowledge }}</li>
-    <li>Guts: {{.Stats.Guts}}</li>
-    <li>Proficiency: {{ .Stats.Proficiency }}</li>
-    <li>Kindness: {{ .Stats.Kindness }}</li>
-    <li>Charm: {{ .Stats.Charm }}</li>
-  </ul>
-</section>
-
+{{ with . }}
+{{ template "profile-header" . }}
 <section id="logs">
   <div class="flex gap-sm">
     <h2>Logs</h2>
@@ -60,7 +33,17 @@
         {{ range .IncreasedStats }}
         <li>
           <p>{{ .Stat }}</p>
-          <p>{{ .Points }}</p>
+          <div class="flex gap-xs items-center">
+          {{ if ge .Points 1}}
+            <div class="music-note-container">{{ template "musicNoteSVG" . }}</div>
+          {{ end }}
+          {{ if ge .Points 4}}
+            <div class="music-note-container">{{ template "musicNoteSVG" . }}</div>
+          {{ end }}
+          {{ if ge .Points 7}}
+            <div class="music-note-container">{{ template "musicNoteSVG" . }}</div>
+          {{ end }}
+          </div>
         </li>
         {{ end }}
       </ul>
@@ -77,4 +60,12 @@
 
 <!-- Toast block -->
 <div id="toast-container"></div>
+{{ else }}
+{{ template "modal" (dict
+  "Id"      "new-user-modal"
+  "Title"   "New User"
+  "Content" "newUser"
+  "Show"    true
+)}}
+{{ end}}
 {{ end }}

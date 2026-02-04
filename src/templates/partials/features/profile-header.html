@@ -1,0 +1,78 @@
+{{ define "profile-header" }}
+<section id="user-header">
+  {{ template "user-info" . }}
+  {{ template "stats-graph" . }}
+</section>
+{{ end }}
+
+{{ define "user-info" }}
+<form id="user-info">
+  {{ template "pfp" . }}
+  {{ template "username" . }}
+</form>
+{{ end }}
+
+{{ define "username" }}
+<div 
+  class="username"
+  hx-get="/user/edit/{{ .Name }}"
+  hx-swap="outerHTML"
+>
+  <h1>{{ .Name }}</h1>
+  {{ template "pencilSVG" }}
+</div>
+{{ end }}
+
+{{ define "editing" }}
+<div class="edit-username">
+  <div class="username2">
+    <input 
+      id="name-input" 
+      class="input" 
+      name="name" 
+      value="{{ .Name }}" 
+      autocomplete="false" 
+    />
+    {{ template "pencilSVG" }}
+  </div>
+  <div id="form-btns">
+    <button 
+      class="btn-secondary" 
+      type="submit"
+    >
+      Edit
+    </button>
+    <button 
+      class="btn-destructive" 
+      type="reset"
+      hx-get="/user/edit-cancel/{{ .Name }}"
+      hx-swap="outerHTML"
+      hx-target=".edit-username"
+    >
+      Cancel
+    </button>
+  </div>
+{{ end }}
+
+{{ define "pfp" }}
+<div 
+  id="pfp" 
+  onclick="openFirstChildFileInput(this)"
+>
+  <img src="/assets/pfp.png" alt="profile picture" />
+  <button class="btn-mutted btn-icon rounded" type="button">
+    {{ template "pencilSVG" }}
+  </button>
+  <input 
+      id="pfpChange" 
+      name="pfp" 
+      class="hidden" 
+      type="file" 
+      accept="image/*" 
+
+      hx-get="/user/edit/{{ .Name }}"
+      hx-swap="outerHTML"
+      hx-target=".username"
+    />
+</div>
+{{ end }}

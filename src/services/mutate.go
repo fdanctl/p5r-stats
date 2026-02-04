@@ -57,11 +57,11 @@ func ReadUserData() (*models.UserData, error) {
 	return &data, nil
 }
 
-func CreateUserData(name string) error {
+func CreateUserData(name string) (*models.UserData, error) {
 	_, err := os.ReadFile(config.DataFile)
 
 	if err == nil {
-		return models.ErrAlreadyExists
+		return nil, models.ErrAlreadyExists
 	}
 
 	newData := models.UserData{
@@ -71,15 +71,38 @@ func CreateUserData(name string) error {
 
 	err = writeData(&newData)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return &newData, nil
 }
 
 func DeleteUserData() error {
 	err := os.Remove(config.DataFile)
 	return err
+}
+
+func ReadActivity(id string) (*models.Activity, error) {
+	file, err := os.ReadFile(config.DataFile)
+
+	if err != nil {
+		return nil, models.ErrNotFound
+	}
+
+	var data models.UserData
+	err = json.Unmarshal(file, &data)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, v := range data.Activities {
+		if v.Id == id {
+			return &v, nil
+		}
+	}
+
+	return nil, models.ErrNotFound
+
 }
 
 func InsertActivity(input models.ActivityInput) error {

@@ -21,7 +21,11 @@
 {{ end }}
 
 {{ define "formNewUser"}}
-<form method="post" action="/api/user-data">
+<form 
+  hx-on:submit:="(event) => event.preventDefault()" 
+  hx-post="/api/user-data" 
+  hx-target="body"
+>
   <input class="input" type="text" placeholder="Name" name="name" />
   <button class="btn-secondary modal-abs-btn" type="submit">Create</button>
 </form>

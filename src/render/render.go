@@ -10,14 +10,17 @@ import (
 	"github.com/fdanctl/p5r-stats/src/utils"
 )
 
-type page uint8
+type view uint8
 
 const (
-	PageHome page = iota
+	PageHome view = iota
 	Page404
-	PageNewUser
 	PageDesignSystem
 	PageTest
+
+	FragmentHome
+	FragmentUserEdit
+	FragmentUserEditCancel
 )
 
 type mapValue struct {
@@ -25,7 +28,7 @@ type mapValue struct {
 	entry string
 }
 
-var pages map[page]mapValue
+var pages map[view ]mapValue
 
 func Init() {
 	funcs := template.FuncMap{
@@ -44,29 +47,22 @@ func Init() {
 
 	var globalPartials []string
 	for _, v := range globalPartialsDir {
+		fmt.Println(globalPartialsSrc, v.Name())
 		globalPartials = append(
 			globalPartials,
 			fmt.Sprint(globalPartialsSrc, v.Name()),
 		)
 	}
 
-	pages = map[page]mapValue{
+	pages = map[view ]mapValue{
 		PageHome: {
 			tmpl: template.Must(
 				template.New("").Funcs(funcs).ParseFiles(
 					append([]string{
+						"src/templates/partials/features/profile-header.html",
+						"src/templates/partials/features/stats-graph.html",
 						"src/templates/layouts/base.html",
 						"src/templates/pages/home.html",
-					}, globalPartials...)...,
-				)),
-			entry: "base.html",
-		},
-		PageNewUser: {
-			tmpl: template.Must(
-				template.New("").Funcs(funcs).ParseFiles(
-					append([]string{
-						"src/templates/layouts/base.html",
-						"src/templates/pages/new.html",
 					}, globalPartials...)...,
 				)),
 			entry: "base.html",
@@ -97,12 +93,41 @@ func Init() {
 				)),
 			entry: "base.html",
 		},
+
+		FragmentHome: {
+			tmpl: template.Must(
+				template.New("").Funcs(funcs).ParseFiles(
+					append([]string{
+						"src/templates/pages/home.html",
+					}, globalPartials...)...,
+				)),
+			entry: "content",
+		},
+		FragmentUserEditCancel: {
+			tmpl: template.Must(
+				template.New("").Funcs(funcs).ParseFiles(
+					append([]string{
+						"src/templates/partials/features/profile-header.html",
+					}, globalPartials...)...,
+				)),
+			entry: "username",
+		},
+
+		FragmentUserEdit: {
+			tmpl: template.Must(
+				template.New("").Funcs(funcs).ParseFiles(
+					append([]string{
+						"src/templates/partials/features/profile-header.html",
+					}, globalPartials...)...,
+				)),
+			entry: "editing",
+		},
 	}
 }
 
-func HTML(w http.ResponseWriter, page page, data any) {
+func HTML(w http.ResponseWriter, view view , data any) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	tmpl, entry := pages[page].tmpl, pages[page].entry
+	tmpl, entry := pages[view].tmpl, pages[view].entry
 	err := tmpl.ExecuteTemplate(w, entry, data)
 	if err != nil {
 		fmt.Printf("err: %v\n", err)
