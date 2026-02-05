@@ -216,3 +216,8 @@ hr,
     animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
 }
+
+@keyframes pop {
+  from { transform: scale(0); opacity: 0 }
+  to   { transform: scale(1); opacity: 1 }
+}

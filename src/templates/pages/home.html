@@ -15,12 +15,18 @@
 {{ end }}
 
 {{ define "content" }}
-{{ with . }}
+{{ if .Name }}
 {{ template "profile-header" . }}
 <section id="logs">
   <div class="flex gap-sm">
     <h2>Logs</h2>
-    <button onclick="toggleModal('add-activity')">add</button>
+    <button
+      hx-get="/partials/modal/add-activity"
+      hx-target="#modal-root"
+      hx-swap="beforeend"
+    >
+      add
+    </button>
   </div>
   <ul>
     {{ range .Activities }}
@@ -47,25 +53,17 @@
         </li>
         {{ end }}
       </ul>
-    </li>
     {{ end }}
   </ul>
 </section>
-
-{{ template "modal" (dict
-  "Id"      "add-activity"
-  "Title"   "Add Activity"
-  "Content" "activity"
-)}}
-
 {{ else }}
-{{ template "modal" (dict
-  "Id"      "new-user-modal"
-  "Title"   "New User"
-  "Content" "new-user"
-  "Show"    true
-)}}
-{{ end}}
-<!-- Toast block -->
-<div id="toast-container"></div>
+<div class="modal-overlay">
+  <div class="modal no-animation">
+    <h3>New User</h3>
+    <div>
+      {{ template "form-new-user" }}
+    </div>
+  </div>
+</div>
+{{ end }}
 {{ end }}

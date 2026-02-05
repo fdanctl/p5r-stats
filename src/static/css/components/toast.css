@@ -26,9 +26,8 @@
   cursor: pointer;
   clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
 
-  opacity: 0;
-  transform: translate(100%, 0%);
-  transition: opacity 150ms ease,  transform 150ms ease;
+  animation: toast-life 4s ease-in-out;
+
 }
 
 .toast.transition-out {
@@ -51,4 +50,22 @@
 
 .toast.error {
   color: var(--color-error);
+}
+
+@keyframes toast-life {
+
+  0%,
+  100% {
+    opacity: 0;
+    transform: translate(100%, 0%);
+    transition:
+      opacity 150ms ease,
+      transform 150ms ease;
+  }
+
+  5%,
+  90% {
+    opacity: 1;
+    transform: translate(0%, 0%);
+  }
 }

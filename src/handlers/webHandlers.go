@@ -12,7 +12,7 @@ func TestHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 
 	case http.MethodGet:
-		render.HTML(w, render.PageTest, nil)
+		render.HTML(w, render.PageTest, nil, nil)
 
 	default:
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
@@ -24,7 +24,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 
 	case http.MethodGet:
 		if r.URL.Path != "/" {
-			render.HTML(w, render.Page404, nil)
+			render.HTML(w, render.Page404, nil, nil)
 			// http.NotFound(w, r)
 			return
 		}
@@ -32,7 +32,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		userData, err := services.ReadUserData()
 
 		if err != nil {
-			render.HTML(w, render.PageHome, nil)
+			render.HTML(w, render.PageHome, nil, nil)
 		} else {
 			stats := services.ComputeStats(userData.Activities)
 
@@ -46,7 +46,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 					Charm:       stats[models.Charm],
 				},
 			}
-			render.HTML(w, render.PageHome, data)
+			render.HTML(w, render.PageHome, data, nil)
 		}
 
 	default:
@@ -58,7 +58,7 @@ func DesignHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 
 	case http.MethodGet:
-		render.HTML(w, render.PageDesignSystem, nil)
+		render.HTML(w, render.PageDesignSystem, nil, nil)
 
 	default:
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)

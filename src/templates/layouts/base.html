@@ -20,6 +20,11 @@
   </head>
 
   <body>
-    {{ block "content" . }}{{ end }}
+    <main>
+      {{ block "content" . }}{{ end }}
+    </main>
+
+    <div id="toast-container"></div>
+    <div id="modal-root"></div>
   </body>
 </html>

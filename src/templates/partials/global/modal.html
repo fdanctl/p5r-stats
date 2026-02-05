@@ -1,7 +1,12 @@
-{{ define "modal" }}
-<div id={{.Id}} class="modalOverlay{{ if .Show }} visible{{ end }}{{ .class }}">
-  <div onclick="toggleModal(event.target.parentElement.id)"></div>
-  <div class="modal{{ with .Class }} {{ . }}{{ end }}">
+<div
+  class="modal-overlay"
+  hx-on:click="closeModal()"
+  hx-on:htmx:load="document.body.classList.add('modal-open')"
+>
+  <div
+    class="modal"
+    hx-on:click="event.stopPropagation()"
+  >
     <h3>{{ .Title }}</h3>
     <div>
       {{ if eq .Content "activity"}}
@@ -18,88 +23,3 @@
     </div>
   </div>
 </div>
-{{ end }}
-
-{{ define "form-new-user"}}
-<form
-  hx-on:submit:="(event) => event.preventDefault()"
-  hx-validate="true"
-  hx-post="/partials/user-data"
-  hx-target="body"
->
-  <div class="input-group">
-    <input id="name" class="input" type="text" placeholder="Name" name="name" autocomplete="false" required />
-    <i>
-      {{ template "circle-x-svg" }}
-    </i>
-    <span>Name is required</span>
-  </div>
-  <button class="btn-secondary modal-abs-btn" type="submit">Create</button>
-</form>
-{{ end }}
-
-{{define "form-activity"}}
-<form>
-  <input class="input" type="text" placeholder="Title" name="title" />
-  <textarea
-    class="input"
-    placeholder="Description"
-    name="description"
-    rows="5"
-    cols="33"
-    maxlength="200"></textarea>
-  <div class="flex gap-xs items-center cursor-help w-fit" onmouseenter="showFirstChildTooltip(this)"
-    onmouseleave="hideFirstChildTooltip(this)">
-    <h4>Stats</h4>
-    <div class="relative question-mark-container">
-      {{ template "questionMarkSVG" . }} {{ template "tooltip" (dict "Text"
-      "info") }}
-    </div>
-  </div>
-  <div class="flex gap-xs">
-    <select class="input" name="stat">
-      <option value="" disabled selected hidden>Add stat</option>
-      <option value="knowledge">Knowledge</option>
-      <option value="guts">Guts</option>
-      <option value="proficiency">Proficiency</option>
-      <option value="kindness">Kindness</option>
-      <option value="charm">Charm</option>
-    </select>
-    <input class="input" type="number" min="1" max="10" name="points" value="1" />
-  </div>
-  <div class="music-note-container">{{ template "music-note-svg" . }}</div>
-  <button class="btn-secondary modal-abs-btn" type="reset">reset</button>
-</form>
-{{end}}
-
-{{ define "settings"}}
-<div>
-  <div class="flex gap-sm items-center">
-    <label for="lang">Language:</label>
-    <select class="input w-fit p-sm" name="lang" id="lang">
-      <option value="en">EN</option>
-      <option value="jp">JP</option>
-      <option value="pt">PT</option>
-    </select>
-  </div>
-  <div class="flex gap-sm items-center">
-    <button class="btn-ghost" onclick="console.log('TODO')">Export PDF</button>
-    <button class="btn-ghost" onclick="console.log('TODO')">Export Excel</button>
-  </div>
-  <div>
-    <button class="btn-destructive" onclick="toggleModal('confirm-test')">Delete Data</button>
-  </div>
-  <button data-id="{{ .Id }}" class="btn-secondary modal-abs-btn" onclick="toggleModal(this.dataset.id)">close</button>
-</div>
-{{ end }}
-
-{{ define "confirmation" }}
-<div>
-  <h3>Are you sure you want to perform this action?</h3>
-  <p class="text-subtitle">This can't be undone</p>
-  <div class="flex justify-end items-center">
-    <button data-id="{{ .Id }}" class="btn-ghost" onclick="toggleModal(this.dataset.id)">No</button>
-    <button class class="btn-ghost" onclick="console.log('TODO')">Yes</button>
-  </div>
-</div>
-{{ end }}

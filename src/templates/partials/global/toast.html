@@ -1,0 +1,11 @@
+{{ define "toast" }} 
+{{ if . }}
+  <div 
+    class="toast {{ .Type }}"
+    hx-on:animationend="this.remove()"
+    style="clip-path: polygon({{ randInt 10 }}px 0, calc(100% - {{ randInt 10 }}px) 0, calc(100% - {{ randInt 10 }}px) 100%, {{ randInt 10 }}px 100%);"
+  >
+    {{ .Message }}
+  </div>
+{{ end }} 
+{{ end }}

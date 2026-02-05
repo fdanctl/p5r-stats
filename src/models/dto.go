@@ -61,3 +61,8 @@ type HomePageData struct {
 	UserData
 	Stats Stats `json:"stats"`
 }
+
+type Toast struct {
+	Type    string
+	Message string
+}

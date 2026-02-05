@@ -20,7 +20,7 @@ func UserFormHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 
 	case http.MethodGet:
-		render.HTML(w, render.FragmentUserEdit, iname{name})
+		render.HTML(w, render.FragmentUserEdit, iname{name}, nil)
 
 	default:
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
@@ -33,16 +33,15 @@ func UserInfoHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 
 	case http.MethodGet:
-		render.HTML(w, render.FragmentUserEditCancel, iname{name})
+		render.HTML(w, render.FragmentUserEditCancel, iname{name}, nil)
 
 	default:
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 	}
 }
 
-
 func UserDataHandler(w http.ResponseWriter, r *http.Request) {
-switch r.Method {
+	switch r.Method {
 	case http.MethodPost:
 		err := r.ParseForm()
 		if err != nil {
@@ -71,7 +70,35 @@ switch r.Method {
 				Charm:       stats[models.Charm],
 			},
 		}
-		
-		render.HTML(w, render.FragmentHome, data)
+
+		render.HTML(w, render.FragmentHome, data, []render.OOB{
+			{
+				ID:   "toast-container",
+				Swap: "beforeend",
+				View: render.FragementToast,
+				Data: models.Toast{
+					Type:    "success",
+					Message: "Saved",
+				},
+			},
+		})
+	}
+}
+
+type modal struct {
+	Title   string
+	Content string
+}
+
+func ModalHandler(w http.ResponseWriter, r *http.Request) {
+	// content := r.URL.Path[len("/partials/modal/"):]
+
+	switch r.Method {
+	case http.MethodGet:
+		data := modal{
+			Title:   "Add Activity",
+			Content: "activity",
+		}
+		render.HTML(w, render.FragmentModal, data, nil)
 	}
 }

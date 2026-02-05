@@ -3,6 +3,7 @@ package render
 import (
 	"fmt"
 	"html/template"
+	"math/rand"
 	"net/http"
 	"os"
 
@@ -21,6 +22,9 @@ const (
 	FragmentHome
 	FragmentUserEdit
 	FragmentUserEditCancel
+	FragmentModal
+
+	FragementToast
 )
 
 type mapValue struct {
@@ -28,7 +32,7 @@ type mapValue struct {
 	entry string
 }
 
-var pages map[view ]mapValue
+var pages map[view]mapValue
 
 func Init() {
 	funcs := template.FuncMap{
@@ -37,6 +41,7 @@ func Init() {
 		"titleCase":    utils.ToTitleCase,
 		"timeToString": utils.TimeToString,
 		"dict":         utils.Dict,
+		"randInt":      rand.Intn,
 	}
 
 	globalPartialsSrc := fmt.Sprint(config.TmplsFolder, "partials/global/")
@@ -54,7 +59,7 @@ func Init() {
 		)
 	}
 
-	pages = map[view ]mapValue{
+	pages = map[view]mapValue{
 		PageHome: {
 			tmpl: template.Must(
 				template.New("").Funcs(funcs).ParseFiles(
@@ -114,7 +119,6 @@ func Init() {
 				)),
 			entry: "username",
 		},
-
 		FragmentUserEdit: {
 			tmpl: template.Must(
 				template.New("").Funcs(funcs).ParseFiles(
@@ -124,10 +128,31 @@ func Init() {
 				)),
 			entry: "editing",
 		},
+		FragmentModal: {
+			tmpl: template.Must(
+				template.New("").Funcs(funcs).ParseFiles(
+					globalPartials...,
+				)),
+			entry: "modal.html",
+		},
+		FragementToast: {
+			tmpl: template.Must(
+				template.New("").Funcs(funcs).ParseFiles(
+					globalPartials...,
+				)),
+			entry: "toast",
+		},
 	}
 }
 
-func HTML(w http.ResponseWriter, view view , data any) {
+type OOB struct {
+	ID   string
+	Swap string
+	View view
+	Data any
+}
+
+func HTML(w http.ResponseWriter, view view, data any, oob []OOB) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	tmpl, entry := pages[view].tmpl, pages[view].entry
 	err := tmpl.ExecuteTemplate(w, entry, data)
@@ -135,4 +160,19 @@ func HTML(w http.ResponseWriter, view view , data any) {
 		fmt.Printf("err: %v\n", err)
 		http.Error(w, "Template error", http.StatusInternalServerError)
 	}
+
+	for _, v := range oob {
+		renderOOB(w, v.ID, v.Swap, v.View, v.Data)
+	}
+}
+
+func renderOOB(w http.ResponseWriter, id, swap string, view view, data any) {
+	fmt.Fprintf(w, `<div id="%s" hx-swap-oob="%s">`, id, swap)
+	tmpl, entry := pages[view].tmpl, pages[view].entry
+	err := tmpl.ExecuteTemplate(w, entry, data)
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+		http.Error(w, "Template error", http.StatusInternalServerError)
+	}
+	fmt.Fprint(w, `</div>`)
 }
