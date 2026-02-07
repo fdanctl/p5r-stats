@@ -1,17 +1,16 @@
 {{ define "form-new-user"}}
 <form
-  hx-on:submit:="(event) => event.preventDefault()"
-  hx-validate="true"
+  hx-on:submit="event.preventDefault()"
   hx-post="/partials/user-data"
   hx-target="main"
 >
-  <div class="input-group">
-    <input id="name" class="input" type="text" placeholder="Name" name="name" autocomplete="false" required />
-    <i>
-      {{ template "circle-x-svg" }}
-    </i>
-    <span>Name is required</span>
-  </div>
+  {{ template "input-group" (dict 
+    "Id"          "name"
+    "Name"        "name"
+    "Type"        "text"
+    "Placeholder" "Name"
+    "Required"    true
+  )}}
   <button class="btn-secondary modal-abs-btn" type="submit">Create</button>
 </form>
 {{ end }}

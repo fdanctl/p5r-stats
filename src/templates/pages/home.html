@@ -2,16 +2,14 @@
 
 {{ define "extraCSS"}}
 <link href="/static/css/components/svg.css" rel="stylesheet" />
-<link href="/static/css/components/toast.css" rel="stylesheet" />
 <link href="/static/css/components/profile-header.css" rel="stylesheet" />
 <link href="/static/css/components/activity-card.css" rel="stylesheet" />
+<link href="/static/css/components/tooltip.css" rel="stylesheet" />
 {{ end }}
 
 {{ define "scripts" }}
-<script src="/static/js/modal.js" defer></script>
 <script src="/static/js/tooltip.js" defer></script>
 <script src="/static/js/profile-header.js" defer></script>
-<script src="/static/js/toast.js" defer></script>
 {{ end }}
 
 {{ define "content" }}
@@ -21,6 +19,7 @@
   <div class="flex gap-sm">
     <h2>Logs</h2>
     <button
+      class="btn-secondary"
       hx-get="/partials/modal/add-activity"
       hx-target="#modal-root"
       hx-swap="beforeend"

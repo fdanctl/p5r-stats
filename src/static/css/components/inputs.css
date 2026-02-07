@@ -60,15 +60,15 @@
   color: var(--color-muted-foreground);
 }
 
-.input.touched:invalid:not(:focus) {
+.input.error:not(:focus) {
   border-color: var(--color-error);
 }
 
-.input.touched:invalid:not(:focus) ~ i {
+.input.error:not(:focus) ~ i {
   display: flex;
 }
 
-.input.touched:invalid:not(:focus) ~ span {
+.input.error:not(:focus) + span {
   display: block;
 }
 

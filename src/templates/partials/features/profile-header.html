@@ -6,7 +6,15 @@
 {{ end }}
 
 {{ define "user-info" }}
-<form id="user-info">
+<form 
+  id="user-info" 
+  hx-patch="/partials/user-data"
+  hx-on:submit="event.preventDefault()"
+  hx-swap="outerHTML"
+  hx-target=".edit-username"
+  hx-encoding="multipart/form-data"
+  novalidate
+>
   {{ template "pfp" . }}
   {{ template "username" . }}
 </form>
@@ -17,23 +25,33 @@
   class="username"
   hx-get="/partials/user/edit/{{ .Name }}"
   hx-swap="outerHTML"
+  hx-target="this"
+  onclick=""
 >
-  <h1>{{ .Name }}</h1>
+  <h1
+    tabindex="0"
+    onkeydown="(event.key === 'Enter' || event.key === 13) && this.click()"
+  >
+    {{ .Name }}
+  </h1>
   {{ template "pencil-svg" }}
 </div>
 {{ end }}
 
 {{ define "editing" }}
-<div class="edit-username">
+<div
+  class="edit-username"
+  hx-on::load="this.querySelector('#name-input').focus(); this.querySelector('#name-input').select()"
+>
   <div class="username2">
-    <input 
-      id="name-input" 
-      class="input" 
-      name="name" 
-      value="{{ .Name }}" 
-      autocomplete="false" 
-      required
-    />
+    {{ template "input-group" (dict
+      "Id"       "name-input"
+      "Type"     "text"
+      "Name"     "name"
+      "Required" true
+      "Value"    .Name
+      "ErrorMsg" "Name is required"
+    )}}
     {{ template "pencil-svg" }}
   </div>
   <div id="form-btns">
@@ -53,6 +71,7 @@
       Cancel
     </button>
   </div>
+</div>
 {{ end }}
 
 {{ define "pfp" }}

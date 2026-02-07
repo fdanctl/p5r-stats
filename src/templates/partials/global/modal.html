@@ -1,7 +1,7 @@
 <div
   class="modal-overlay"
   hx-on:click="closeModal()"
-  hx-on:htmx:load="document.body.classList.add('modal-open')"
+  hx-on::load="document.body.classList.add('modal-open')"
 >
   <div
     class="modal"

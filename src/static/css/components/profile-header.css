@@ -1,7 +1,13 @@
 #user-header {
-  display: flex;
   justify-content: space-between;
   gap: 1rem;
+}
+
+#stats-graph {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  white-space: nowrap;
 }
 
 #user-info {
@@ -89,3 +95,10 @@
   gap: var(--spacing-sm);
   justify-content: flex-end;
 }
+
+@media (min-width: 600px) {
+  #user-header {
+    display: flex;
+  }
+}
+

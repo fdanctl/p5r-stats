@@ -18,7 +18,7 @@
 
 .toast {
   position: relative;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.8);
   width: fit-content;
   padding: 0.25rem 1.5rem;
   overflow-x: hidden;
@@ -58,9 +58,6 @@
   100% {
     opacity: 0;
     transform: translate(100%, 0%);
-    transition:
-      opacity 150ms ease,
-      transform 150ms ease;
   }
 
   5%,

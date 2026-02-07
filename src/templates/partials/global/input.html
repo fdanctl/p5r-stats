@@ -1,0 +1,21 @@
+{{ define "input-group" }}
+<div class="input-group">
+  {{ template "input" . }}
+  <span>{{ with .ErrorMsg }}.{{ end }}</span>
+  <i> {{ template "circle-x-svg" }} </i>
+</div>
+{{ end }}
+
+{{ define "input" }}
+<input 
+  {{ with .Id }} id="{{ . }}" {{ end }}
+  class="input{{ with .Error }} error{{ end }}"
+  {{ with .Type }} type="{{ . }}" {{ end }}
+  {{ with .Placeholder }} placeholder="{{ . }}" {{ end }}
+  {{ with .Name }} name="{{ . }}" {{ end }}
+  {{ with .Minlength }} minlength="{{ . }}" {{ end }}
+  {{ with .Maxlength }} maxlength="{{ . }}" {{ end }}
+  {{ with .Value }} value="{{ . }}" {{ end }}
+  {{ with .Required }} required {{ end }}
+/>
+{{ end }}

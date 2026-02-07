@@ -2,57 +2,18 @@
 
 {{ define "extraCSS"}}
 <link href="/static/css/components/svg.css" rel="stylesheet" />
-<link href="/static/css/components/toast.css" rel="stylesheet" />
+<link href="/static/css/components/loader.css" rel="stylesheet" />
 <style>
-.input-group {
-  position: relative;
-  display: inline-block;
-  width: 300px;
-}
-
-.icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  background: #666;
-  border-radius: 3px;
-}
-
-.input {
-  width: 100%;
-  padding: 12px 12px 12px 40px;
-  border: 2px solid #ddd;
-  border-radius: 6px;
-  font-size: 16px;
-  transition: border-color 0.2s;
-}
-
-.input:focus {
-  outline: none;
-  border-color: #007bff;
-}
-
-.input:invalid:focus {
-  border-color: var(--color-error, #dc3545);
-}
+  body {
+    padding: 2rem;
+  }
 </style>
 {{ end }}
 
 {{ define "scripts" }}
-<script src="/static/js/input.js" defer></script>
-<script src="/static/js/modal.js" defer></script>
 <script src="/static/js/tooltip.js" defer></script>
-<script src="/static/js/home.js" defer></script>
-<script src="/static/js/toast.js" defer></script>
-<script src="/static/js/utils.js" defer></script>
 {{ end }}
 
 {{ define "content" }}
-<div class="input-group">
-  <input class="input" type="email" placeholder="Enter email" required>
-  <span class="error" style="color: red; font-size: 14px; display: block;">error</span>
-</div>
+{{ template "loader" }}
 {{ end }}
