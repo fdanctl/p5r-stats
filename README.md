@@ -2,7 +2,6 @@ HTMX + GO
 
 ### todo
 
-- submit user new name with profile pic
 - add activity
 - delete activity
 - update activity

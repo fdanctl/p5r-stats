@@ -3,7 +3,10 @@ package services
 import (
 	"encoding/json"
 	"fmt"
+	"io"
+	"mime/multipart"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/fdanctl/p5r-stats/config"
@@ -17,7 +20,7 @@ func writeData(userData *models.UserData) error {
 		return err
 	}
 
-	if err := os.WriteFile(config.DataFile, data, 0644); err != nil {
+	if err := os.WriteFile(config.DataFile, data, 0o644); err != nil {
 		return err
 	}
 
@@ -43,7 +46,6 @@ func ComputeStats(activities []models.Activity) map[models.Stat]int {
 
 func ReadUserData() (*models.UserData, error) {
 	file, err := os.ReadFile(config.DataFile)
-
 	if err != nil {
 		return nil, models.ErrNotFound
 	}
@@ -66,6 +68,7 @@ func CreateUserData(name string) (*models.UserData, error) {
 
 	newData := models.UserData{
 		Name:       name,
+		Pfp:        "default_pfp.png",
 		Activities: (make([]models.Activity, 0)),
 	}
 
@@ -77,6 +80,46 @@ func CreateUserData(name string) (*models.UserData, error) {
 	return &newData, nil
 }
 
+func ModifyUser(name string, fh *multipart.FileHeader) error {
+	userData, err := ReadUserData()
+	var path *string
+	if err != nil {
+		return err
+	}
+
+	if fh != nil {
+		fmt.Print("hello")
+		file, err := fh.Open()
+		if err != nil {
+			return models.ErrCantReadFile
+		}
+		defer file.Close()
+
+		outPath := filepath.Join(
+			"assets",
+			fmt.Sprint(name, "_pfp", filepath.Ext(fh.Filename)),
+		)
+
+		outFile, err := os.Create(outPath)
+		if err != nil {
+			return err
+		}
+		defer outFile.Close()
+
+		_, err = io.Copy(outFile, file)
+		if err != nil {
+			return err
+		}
+		path = &outPath
+	}
+
+	userData.Name = utils.FallbackToB(&name, &userData.Name)
+	userData.Pfp = utils.FallbackToB(path, &userData.Pfp)
+
+	writeData(userData)
+	return nil
+}
+
 func DeleteUserData() error {
 	err := os.Remove(config.DataFile)
 	return err
@@ -84,7 +127,6 @@ func DeleteUserData() error {
 
 func ReadActivity(id string) (*models.Activity, error) {
 	file, err := os.ReadFile(config.DataFile)
-
 	if err != nil {
 		return nil, models.ErrNotFound
 	}
@@ -102,7 +144,6 @@ func ReadActivity(id string) (*models.Activity, error) {
 	}
 
 	return nil, models.ErrNotFound
-
 }
 
 func InsertActivity(input models.ActivityInput) error {

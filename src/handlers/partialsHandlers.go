@@ -3,6 +3,7 @@ package handlers
 import (
 	"errors"
 	"fmt"
+	"mime/multipart"
 	"net/http"
 
 	"github.com/fdanctl/p5r-stats/src/models"
@@ -78,7 +79,7 @@ func UserDataHandler(w http.ResponseWriter, r *http.Request) {
 				},
 			},
 		})
-	
+
 	case http.MethodPatch:
 		fmt.Printf("r.Header.Get(\"Content-Type\"): %v\n", r.Header.Get("Content-Type"))
 
@@ -88,23 +89,56 @@ func UserDataHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		pfp, ok := r.MultipartForm.File["pfp"]
-		fmt.Println("pfp:", ok)
-
 		// name := r.Form.Get("name")
 		name, ok := r.MultipartForm.Value["name"]
-		fmt.Println("name:", ok)
-
-		fmt.Println("pfp:", pfp)
-		fmt.Println("name:", name)
-
-		fmt.Printf("name[0]: %v\n", name[0])
-
-		fmt.Printf("len(name): %v\n", len(name))
-		if len(name[0]) == 0 {
+		if !ok || len(name[0]) == 0 {
 			http.Error(w, "Name is required.", http.StatusBadRequest)
 			return
 		}
+
+		var fh *multipart.FileHeader
+		pfp, ok := r.MultipartForm.File["pfp"]
+		if ok && len(pfp) > 0 {
+			fh = pfp[0]
+		}
+
+		err := services.ModifyUser(name[0], fh)
+		if err != nil {
+			errors.Is(err, models.ErrCantReadFile)
+			http.Error(w, "Can't read the file", http.StatusBadRequest)
+		} else {
+			http.Error(w, "Failed to save file", http.StatusInternalServerError)
+		}
+		// if ok && len(pfp) > 0 {
+		// 	fh := pfp[0]
+		// 	file, err := fh.Open()
+		// 	if err != nil {
+		// 		http.Error(w, "Can't read the file", http.StatusBadRequest)
+		// 		return
+		// 	}
+		// 	defer file.Close()
+		//
+		// 	outpath := filepath.Join(
+		// 		"assets",
+		// 		fmt.Sprint(name[0], "_pfp", filepath.Ext(fh.Filename)),
+		// 	)
+		// 	fmt.Printf("outpath: %v\n", outpath)
+		//
+		// 	outFile, err := os.Create(outpath)
+		// 	if err != nil {
+		// 		http.Error(w, "Failed to save file", http.StatusInternalServerError)
+		// 		return
+		// 	}
+		// 	defer outFile.Close()
+		// 	_, err = io.Copy(outFile, file)
+		// 	if err != nil {
+		// 		http.Error(w, "Failed to save file", http.StatusInternalServerError)
+		// 		return
+		// 	}
+		//
+		// 	path = &outpath
+		// }
+		// services.ModifyUser(name[0], path)
 
 		render.HTML(w, render.FragmentUsernameDiv, models.Username{Name: name[0]}, nil)
 

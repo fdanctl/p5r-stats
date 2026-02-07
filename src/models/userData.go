@@ -93,5 +93,6 @@ type Activity struct {
 
 type UserData struct {
 	Name       string     `json:"name"`
+	Pfp		   string 	  `json:"pfp"`
 	Activities []Activity `json:"activities"`
 }
