@@ -10,17 +10,13 @@ import (
 	"github.com/fdanctl/p5r-stats/src/services"
 )
 
-type iname struct {
-	Name string
-}
-
 func UserFormHandler(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Path[len("/partials/user/edit/"):]
 
 	switch r.Method {
 
 	case http.MethodGet:
-		render.HTML(w, render.FragmentUserEdit, iname{name}, nil)
+		render.HTML(w, render.FragmentUserEdit, models.Username{Name: name}, nil)
 
 	default:
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
@@ -33,7 +29,7 @@ func UserInfoHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 
 	case http.MethodGet:
-		render.HTML(w, render.FragmentUserEditCancel, iname{name}, nil)
+		render.HTML(w, render.FragmentUsernameDiv, models.Username{Name: name}, nil)
 
 	default:
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
@@ -75,19 +71,46 @@ func UserDataHandler(w http.ResponseWriter, r *http.Request) {
 			{
 				ID:   "toast-container",
 				Swap: "beforeend",
-				View: render.FragementToast,
+				View: render.FragmentToast,
 				Data: models.Toast{
 					Type:    "success",
-					Message: "Saved",
+					Message: "User created",
 				},
 			},
 		})
-	}
-}
+	
+	case http.MethodPatch:
+		fmt.Printf("r.Header.Get(\"Content-Type\"): %v\n", r.Header.Get("Content-Type"))
 
-type modal struct {
-	Title   string
-	Content string
+		// 10 MB max
+		if err := r.ParseMultipartForm(10 << 20); err != nil {
+			http.Error(w, "Bad Form", http.StatusBadRequest)
+			return
+		}
+
+		pfp, ok := r.MultipartForm.File["pfp"]
+		fmt.Println("pfp:", ok)
+
+		// name := r.Form.Get("name")
+		name, ok := r.MultipartForm.Value["name"]
+		fmt.Println("name:", ok)
+
+		fmt.Println("pfp:", pfp)
+		fmt.Println("name:", name)
+
+		fmt.Printf("name[0]: %v\n", name[0])
+
+		fmt.Printf("len(name): %v\n", len(name))
+		if len(name[0]) == 0 {
+			http.Error(w, "Name is required.", http.StatusBadRequest)
+			return
+		}
+
+		render.HTML(w, render.FragmentUsernameDiv, models.Username{Name: name[0]}, nil)
+
+	default:
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+	}
 }
 
 func ModalHandler(w http.ResponseWriter, r *http.Request) {
@@ -95,7 +118,7 @@ func ModalHandler(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case http.MethodGet:
-		data := modal{
+		data := models.Modal{
 			Title:   "Add Activity",
 			Content: "activity",
 		}

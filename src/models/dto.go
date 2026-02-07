@@ -62,6 +62,15 @@ type HomePageData struct {
 	Stats Stats `json:"stats"`
 }
 
+type Username struct {
+	Name string
+}
+
+type Modal struct {
+	Title   string
+	Content string
+}
+
 type Toast struct {
 	Type    string
 	Message string

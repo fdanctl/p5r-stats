@@ -7,11 +7,6 @@ import (
 	"unicode"
 )
 
-// Upper returns a string with all letters converted to uppercase.
-func Upper(s string) string {
-	return strings.ToUpper(s)
-}
-
 // Capitalize returns a string with the first letter capitalized.
 func Capitalize(s string) string {
 	if s == "" {

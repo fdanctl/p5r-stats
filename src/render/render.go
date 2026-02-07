@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/fdanctl/p5r-stats/config"
 	"github.com/fdanctl/p5r-stats/src/utils"
@@ -21,10 +22,10 @@ const (
 
 	FragmentHome
 	FragmentUserEdit
-	FragmentUserEditCancel
+	FragmentUsernameDiv
 	FragmentModal
 
-	FragementToast
+	FragmentToast
 )
 
 type mapValue struct {
@@ -36,7 +37,7 @@ var pages map[view]mapValue
 
 func Init() {
 	funcs := template.FuncMap{
-		"upper":        utils.Upper,
+		"upper":        strings.ToUpper,
 		"capitalize":   utils.Capitalize,
 		"titleCase":    utils.ToTitleCase,
 		"timeToString": utils.TimeToString,
@@ -110,7 +111,7 @@ func Init() {
 				)),
 			entry: "content",
 		},
-		FragmentUserEditCancel: {
+		FragmentUsernameDiv: {
 			tmpl: template.Must(
 				template.New("").Funcs(funcs).ParseFiles(
 					append([]string{
@@ -135,7 +136,7 @@ func Init() {
 				)),
 			entry: "modal.html",
 		},
-		FragementToast: {
+		FragmentToast: {
 			tmpl: template.Must(
 				template.New("").Funcs(funcs).ParseFiles(
 					globalPartials...,
