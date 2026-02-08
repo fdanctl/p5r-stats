@@ -145,30 +145,29 @@ func ReadActivity(id string) (*models.Activity, error) {
 	return nil, models.ErrNotFound
 }
 
-func InsertActivity(input models.ActivityInput) error {
+func InsertActivity(input models.ActivityInput) (*models.Activity, error) {
 	userData, err := ReadUserData()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	randId, err := utils.RandomID(4)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	userData.Activities = append(
-		userData.Activities,
-		models.Activity{
-			Id:             randId,
-			Title:          input.Title,
-			Description:    input.Description,
-			Date:           time.Now(),
-			IncreasedStats: input.IncreasedStats,
-		})
+	activity := models.Activity{
+		Id:             randId,
+		Title:          input.Title,
+		Description:    input.Description,
+		Date:           time.Now(),
+		IncreasedStats: input.IncreasedStats,
+	}
+	userData.Activities = append(userData.Activities, activity)
 
 	writeData(userData)
 
-	return nil
+	return &activity, nil
 }
 
 func ModifyActivity(id string, input models.ActivityModifyInput) error {

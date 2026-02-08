@@ -1,0 +1,26 @@
+{{ define "activity-card" }}
+<li data-id="{{.Id}}" class="activity-card" onclick="">
+  <div>
+    <h4>{{ .Title }}</h4>
+    <p class="text-subtitle text-xs">{{ timeToString .Date }}</p>
+  </div>
+  <ul>
+    {{ range .IncreasedStats }}
+    <li>
+      <p>{{ .Stat }}</p>
+      <div class="flex gap-xs items-center">
+        {{ if ge .Points 1}}
+        <div class="music-note-container">{{ template "music-note-svg" . }}</div>
+        {{ end }}
+        {{ if ge .Points 4}}
+        <div class="music-note-container">{{ template "music-note-svg" . }}</div>
+        {{ end }}
+        {{ if ge .Points 7}}
+        <div class="music-note-container">{{ template "music-note-svg" . }}</div>
+        {{ end }}
+      </div>
+    </li>
+    {{ end }}
+  </ul>
+</li>
+{{ end }}

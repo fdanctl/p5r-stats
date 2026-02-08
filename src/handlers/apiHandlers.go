@@ -73,7 +73,7 @@ func ActivityHandlerAPI(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err = services.InsertActivity(body)
+		_, err = services.InsertActivity(body)
 		if err != nil {
 			http.Error(w, "Internal error", http.StatusInternalServerError)
 			return

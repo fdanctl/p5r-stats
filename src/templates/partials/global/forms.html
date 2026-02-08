@@ -16,7 +16,11 @@
 {{ end }}
 
 {{define "form-activity"}}
-<form>
+<form
+  hx-post="/partials/add-activity"
+  hx-target="closest .modal-overlay"
+  hx-swap="outerHTML"
+>
   {{ template "input-group" (dict
     "Type"        "text"
     "Placeholder" "Title"
@@ -43,7 +47,7 @@
     {{ template "select-stat" }}
   </div>
   <div class="music-note-container">{{ template "music-note-svg" . }}</div>
-  <button class="btn-secondary modal-abs-btn" type="reset">reset</button>
+  <button class="btn-secondary modal-abs-btn" type="submit">submit</button>
 </form>
 {{end}}
 

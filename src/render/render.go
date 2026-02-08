@@ -25,6 +25,8 @@ const (
 	FragmentUsernameDiv
 	FragmentModal
 	FragmentStatSelect
+	FragmentActivity
+	FragmentStatsGraph
 
 	FragmentToast
 )
@@ -66,6 +68,7 @@ func Init() {
 			tmpl: template.Must(
 				template.New("").Funcs(funcs).ParseFiles(
 					append([]string{
+						"src/templates/partials/features/activity-card.html",
 						"src/templates/partials/features/profile-header.html",
 						"src/templates/partials/features/stats-graph.html",
 						"src/templates/layouts/base.html",
@@ -144,6 +147,24 @@ func Init() {
 				)),
 			entry: "select-stat",
 		},
+		FragmentActivity: {
+			tmpl: template.Must(
+				template.New("").Funcs(funcs).ParseFiles(
+					append([]string{
+						"src/templates/partials/features/activity-card.html",
+					}, globalPartials...)...,
+				)),
+			entry: "activity-card",
+		},
+		FragmentStatsGraph: {
+			tmpl: template.Must(
+				template.New("").Funcs(funcs).ParseFiles(
+					append([]string{
+						"src/templates/partials/features/stats-graph.html",
+					}, globalPartials...)...,
+				)),
+			entry: "stats-graph",
+		},
 		FragmentToast: {
 			tmpl: template.Must(
 				template.New("").Funcs(funcs).ParseFiles(
@@ -171,11 +192,11 @@ func HTML(w http.ResponseWriter, view view, data any, oob []OOB) {
 	}
 
 	for _, v := range oob {
-		renderOOB(w, v.ID, v.Swap, v.View, v.Data)
+		RenderOOB(w, v.ID, v.Swap, v.View, v.Data)
 	}
 }
 
-func renderOOB(w http.ResponseWriter, id, swap string, view view, data any) {
+func RenderOOB(w http.ResponseWriter, id, swap string, view view, data any) {
 	fmt.Fprintf(w, `<div id="%s" hx-swap-oob="%s">`, id, swap)
 	tmpl, entry := pages[view].tmpl, pages[view].entry
 	err := tmpl.ExecuteTemplate(w, entry, data)

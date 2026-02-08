@@ -2,9 +2,9 @@ HTMX + GO
 
 ### todo
 
-- add activity
 - delete activity
 - update activity
+- graph
 
 
   ♪： 2上昇　
