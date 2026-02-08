@@ -1,0 +1,27 @@
+.select-stat {
+  position: relative;
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.select-stat > div {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: absolute;
+  right: -0.25rem;
+  top: 50%;
+  transform: translate(100%, -50%);
+}
+
+.select-stat[data-value=""] > div {
+  cursor: default;
+  display: none;
+}
+
+.select-stat:not([data-value=""]) > div:hover {
+  color:red
+}

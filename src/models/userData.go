@@ -34,7 +34,7 @@ func (s Stat) String() string {
 	}
 }
 
-func parseStat(s string) (Stat, error) {
+func ParseStat(s string) (Stat, error) {
 	switch s {
 	case "knowledge":
 		return Knowledge, nil
@@ -57,7 +57,7 @@ func (s *Stat) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	stat, _ := parseStat(str)
+	stat, _ := ParseStat(str)
 
 	*s = stat
 	return nil

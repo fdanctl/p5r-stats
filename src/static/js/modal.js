@@ -1,4 +1,3 @@
-
 function closeModal() {
   document.body.classList.remove("modal-open")
   document.getElementById("modal-root").innerHTML = "";

@@ -88,7 +88,6 @@ func ModifyUser(name string, fh *multipart.FileHeader) error {
 	}
 
 	if fh != nil {
-		fmt.Print("hello")
 		file, err := fh.Open()
 		if err != nil {
 			return models.ErrCantReadFile

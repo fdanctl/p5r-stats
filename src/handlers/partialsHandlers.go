@@ -109,37 +109,6 @@ func UserDataHandler(w http.ResponseWriter, r *http.Request) {
 		} else {
 			http.Error(w, "Failed to save file", http.StatusInternalServerError)
 		}
-		// if ok && len(pfp) > 0 {
-		// 	fh := pfp[0]
-		// 	file, err := fh.Open()
-		// 	if err != nil {
-		// 		http.Error(w, "Can't read the file", http.StatusBadRequest)
-		// 		return
-		// 	}
-		// 	defer file.Close()
-		//
-		// 	outpath := filepath.Join(
-		// 		"assets",
-		// 		fmt.Sprint(name[0], "_pfp", filepath.Ext(fh.Filename)),
-		// 	)
-		// 	fmt.Printf("outpath: %v\n", outpath)
-		//
-		// 	outFile, err := os.Create(outpath)
-		// 	if err != nil {
-		// 		http.Error(w, "Failed to save file", http.StatusInternalServerError)
-		// 		return
-		// 	}
-		// 	defer outFile.Close()
-		// 	_, err = io.Copy(outFile, file)
-		// 	if err != nil {
-		// 		http.Error(w, "Failed to save file", http.StatusInternalServerError)
-		// 		return
-		// 	}
-		//
-		// 	path = &outpath
-		// }
-		// services.ModifyUser(name[0], path)
-
 		render.HTML(w, render.FragmentUsernameDiv, models.Username{Name: name[0]}, nil)
 
 	default:
@@ -157,5 +126,55 @@ func ModalHandler(w http.ResponseWriter, r *http.Request) {
 			Content: "activity",
 		}
 		render.HTML(w, render.FragmentModal, data, nil)
+
+	default:
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+	}
+}
+
+func StatHandler(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodGet:
+		queryStat := r.URL.Query()["stat"]
+		if len(queryStat) >= 5 {
+			http.StatusText(http.StatusNoContent)
+			return
+		}
+
+		options := []models.Stat{
+			models.Knowledge,
+			models.Guts,
+			models.Proficiency,
+			models.Kindness,
+			models.Charm,
+		}
+		for _, v := range queryStat {
+			s, _ := models.ParseStat(v)
+
+			for i, o := range options {
+				if o == s {
+					options = append(options[0:i], options[i+1:]...)
+					break
+				}
+			}
+		}
+
+		type optionsStruct struct {
+			Options []string
+		}
+
+		opts := make([]string, 0, 5)
+		for _, v := range options {
+			opts = append(opts, v.String())
+		}
+
+		fmt.Printf("options: %v\n", options)
+		render.HTML(w, render.FragmentStatSelect, optionsStruct{
+			Options: opts,
+		},nil)
+
+	default:
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+
 	}
 }

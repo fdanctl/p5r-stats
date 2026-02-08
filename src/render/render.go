@@ -24,6 +24,7 @@ const (
 	FragmentUserEdit
 	FragmentUsernameDiv
 	FragmentModal
+	FragmentStatSelect
 
 	FragmentToast
 )
@@ -135,6 +136,13 @@ func Init() {
 					globalPartials...,
 				)),
 			entry: "modal.html",
+		},
+		FragmentStatSelect: {
+			tmpl: template.Must(
+				template.New("").Funcs(funcs).ParseFiles(
+					globalPartials...,
+				)),
+			entry: "select-stat",
 		},
 		FragmentToast: {
 			tmpl: template.Must(

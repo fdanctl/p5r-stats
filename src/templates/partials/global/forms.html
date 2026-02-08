@@ -17,7 +17,13 @@
 
 {{define "form-activity"}}
 <form>
-  <input class="input" type="text" placeholder="Title" name="title" />
+  {{ template "input-group" (dict
+    "Type"        "text"
+    "Placeholder" "Title"
+    "Name"        "title"
+    "ErrorMsg"    "Title is required"
+    "Required"    true
+  )}}
   <textarea
     class="input"
     placeholder="Description"
@@ -29,25 +35,60 @@
     onmouseleave="hideFirstChildTooltip(this)">
     <h4>Stats</h4>
     <div class="relative question-mark-container">
-      {{ template "questionMarkSVG" . }} {{ template "tooltip" (dict "Text"
-      "info") }}
+      {{ template "questionMarkSVG" . }} 
+      {{ template "tooltip" (dict "Text" "info") }}
     </div>
   </div>
-  <div class="flex gap-xs">
-    <select class="input" name="stat">
-      <option value="" disabled selected hidden>Add stat</option>
-      <option value="knowledge">Knowledge</option>
-      <option value="guts">Guts</option>
-      <option value="proficiency">Proficiency</option>
-      <option value="kindness">Kindness</option>
-      <option value="charm">Charm</option>
-    </select>
-    <input class="input" type="number" min="1" max="10" name="points" value="1" />
+  <div id="stats-selects">
+    {{ template "select-stat" }}
   </div>
   <div class="music-note-container">{{ template "music-note-svg" . }}</div>
   <button class="btn-secondary modal-abs-btn" type="reset">reset</button>
 </form>
 {{end}}
+
+{{ define "select-stat" }}
+<div class="select-stat" data-value="">
+  <select 
+    class="input" 
+    name="stat" 
+    hx-get="/partials/stat"
+    hx-trigger="change once"
+    hx-target="#stats-selects"
+    hx-swap="beforeend"
+    hx-include="[name='stat']"
+    onchange="this.parentElement.dataset.value = this.value; customOnChange()"
+  >
+    <option value="" disabled selected hidden>Add stat</option>
+    {{ if .Options }}
+      {{ range .Options }}
+        <option value="{{ . }}">{{ capitalize . }}</option>
+      {{ end }}
+    {{ else }}
+      <option value="knowledge">Knowledge</option>
+      <option value="guts">Guts</option>
+      <option value="proficiency">Proficiency</option>
+      <option value="kindness">Kindness</option>
+      <option value="charm">Charm</option>
+    {{ end }}
+  </select>
+  <p>Increased:</p>
+  {{ template "input" (dict
+    "Type"  "number"
+    "Min"   "1"
+    "Max"   "10"
+    "Name"  "points"
+    "Value" "1"
+  )}}
+  <div onclick="
+      customOnChange(this.parentElement.querySelector('select').value);
+      this.parentElement.querySelector('select').value !== '' &&
+        this.parentElement.remove();
+    ">
+    {{ template "x-svg" }}
+  </div>
+</div>
+{{ end }}
 
 {{ define "settings"}}
 <div>

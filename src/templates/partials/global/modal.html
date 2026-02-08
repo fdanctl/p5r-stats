@@ -1,7 +1,8 @@
 <div
   class="modal-overlay"
   hx-on:click="closeModal()"
-  hx-on::load="document.body.classList.add('modal-open')"
+  tabindex="-1"
+  hx-on::load="document.body.classList.add('modal-open'); this.focus()"
 >
   <div
     class="modal"

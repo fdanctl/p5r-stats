@@ -50,6 +50,10 @@ func main() {
 		"/partials/modal/add-activity",
 		middleware.RequireHTMX(handlers.ModalHandler),
 	)
+	partialsMux.HandleFunc(
+		"/partials/stat",
+		middleware.RequireHTMX(handlers.StatHandler),
+	)
 
 	apiMux := http.NewServeMux() // returns json
 	apiMux.HandleFunc("/api/user-data", handlers.UserDataHandlerAPI)
