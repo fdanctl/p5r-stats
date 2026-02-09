@@ -181,9 +181,9 @@ func ModifyActivity(id string, input models.ActivityModifyInput) error {
 	for i, v := range userData.Activities {
 		if v.Id == id {
 			var pDate *time.Time
-			if *input.Date != "" {
+			if input.Date != "" {
 				layout := "2006-01-02"
-				inputDate, err := time.Parse(layout, *input.Date)
+				inputDate, err := time.Parse(layout, input.Date)
 				if err != nil {
 					return models.ErrInvalidDate
 				}
@@ -192,10 +192,10 @@ func ModifyActivity(id string, input models.ActivityModifyInput) error {
 
 			userData.Activities[i] = models.Activity{
 				Id:             v.Id,
-				Title:          utils.FallbackToB(input.Title, &v.Title),
-				Description:    utils.FallbackToB(input.Description, &v.Description),
+				Title:          input.Title,
+				Description:    input.Description,
 				Date:           utils.FallbackToB(pDate, &v.Date),
-				IncreasedStats: utils.FallbackToB(input.IncreasedStats, &v.IncreasedStats),
+				IncreasedStats: input.IncreasedStats,
 			}
 			found = true
 			break

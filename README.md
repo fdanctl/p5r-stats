@@ -1,10 +1,13 @@
-HTMX + GO
+First project with HTMX + GO
 
 ### todo
 
-- delete activity
-- update activity
 - graph
+- delete user
+
+### DX improvement
+
+- make struct for templates
 
 
   ♪： 2上昇　

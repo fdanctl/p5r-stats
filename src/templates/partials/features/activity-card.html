@@ -4,6 +4,8 @@
   class="activity-card"
   hx-get="/partials/activity/{{ .Id }}"
   hx-target="#modal-root"
+  tabindex="0"
+  onkeydown="(event.key === 'Enter' || event.key === 13) && this.click()"
 >
   <div>
     <h4>{{ .Title }}</h4>
@@ -31,6 +33,7 @@
     class="btn-icon btn-ghost"
     hx-delete="/partials/activity/{{ .Id }}"
     onclick="event.stopPropagation()"
+    onkeydown="event.stopPropagation()"
     hx-swap="delete"
     hx-target="closest li"
   >

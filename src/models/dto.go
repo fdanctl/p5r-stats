@@ -13,7 +13,7 @@ func (value ActivityInput) Validate() error {
 		return errors.New("Field 'title' is required")
 	}
 	if len(value.IncreasedStats) == 0 {
-		return errors.New("Must have at least one 'increased_stats'")
+		return errors.New("At least one stat must be provided")
 	}
 
 	for _, v := range value.IncreasedStats {
@@ -27,19 +27,25 @@ func (value ActivityInput) Validate() error {
 }
 
 type ActivityModifyInput struct {
-	Title          *string          `json:"title,omitempty"`
-	Description    *string          `json:"description,omitempty"`
-	Date           *string          `json:"date,omitempty"`
-	IncreasedStats *[]IncreasedStat `json:"increased_stats,omitempty"`
+	Title          string          `json:"title,omitempty"`
+	Description    string          `json:"description,omitempty"`
+	Date           string          `json:"date,omitempty"`
+	IncreasedStats []IncreasedStat `json:"increased_stats,omitempty"`
 }
 
 func (value ActivityModifyInput) Validate() error {
-	if value.IncreasedStats != nil && len(*value.IncreasedStats) == 0 {
-		return errors.New("Must have at least one 'increased_stats' if provided")
+	if value.Title == "" {
+		return errors.New("Field 'title' is required")
+	}
+	if value.Date == "" {
+		return errors.New("Field 'date' is required")
+	}
+	if len(value.IncreasedStats) == 0 {
+		return errors.New("At least one stat must be provided")
 	}
 
 	if value.IncreasedStats != nil {
-		for _, v := range *value.IncreasedStats {
+		for _, v := range value.IncreasedStats {
 			err := v.Validate()
 			if err != nil {
 				return err

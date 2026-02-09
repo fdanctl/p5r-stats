@@ -17,7 +17,7 @@
 
 {{define "form-activity"}}
 <form
-  hx-post="/partials/activity"
+  hx-post="/partials/activity{{ with .Id }}/{{ . }}{{ end }}"
   hx-target="closest .modal-overlay"
   hx-swap="outerHTML"
 >

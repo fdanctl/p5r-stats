@@ -132,14 +132,9 @@ func ActivityHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		title := r.Form.Get("title")
-		if title == "" {
-			http.Error(w, "Name is required.", http.StatusBadRequest)
-			return
-		}
 
 		points := r.Form["points"]
 		stats := r.Form["stat"]
-		fmt.Printf("stats: %v\n", stats)
 		if len(stats) == 0 || len(stats) > len(points) {
 			http.Error(w, "At least one stat must be provided", http.StatusBadRequest)
 			return
@@ -162,7 +157,6 @@ func ActivityHandler(w http.ResponseWriter, r *http.Request) {
 				http.Error(w, "Invalid number in files points", http.StatusBadRequest)
 				return
 			}
-			fmt.Printf("p: %v\n", p)
 			if p <= 0 || p > 10 {
 				http.Error(
 					w,
@@ -176,11 +170,18 @@ func ActivityHandler(w http.ResponseWriter, r *http.Request) {
 
 		}
 
-		aData, err := services.InsertActivity(models.ActivityInput{
+		actData := models.ActivityInput{
 			Title:          title,
 			Description:    r.Form.Get("description"),
 			IncreasedStats: is,
-		})
+		}
+		err := actData.Validate()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		aData, err := services.InsertActivity(actData)
 		if err != nil {
 			http.Error(w, "Bad Form", http.StatusBadRequest)
 			return
@@ -261,13 +262,98 @@ func ActivityWithIdHandler(w http.ResponseWriter, r *http.Request) {
 			},
 		}, nil)
 
+	case http.MethodPost:
+		if err := r.ParseForm(); err != nil {
+			http.Error(w, "Bad Form", http.StatusBadRequest)
+			return
+		}
+
+		points := r.Form["points"]
+		stats := r.Form["stat"]
+		if len(stats) == 0 || len(stats) > len(points) {
+			http.Error(w, "At least one stat must be provided", http.StatusBadRequest)
+			return
+		}
+
+		is := make([]models.IncreasedStat, 0, 5)
+		for i, s := range stats {
+			stat, err := models.ParseStat(s)
+			if err != nil {
+				http.Error(
+					w,
+					"Invalid stat\nStats must be Knowledge, Guts, Proficiency, Kindness or charm",
+					http.StatusBadRequest,
+				)
+				return
+			}
+
+			p, err := strconv.ParseUint(points[i], 0, 8)
+			if err != nil {
+				http.Error(w, "Invalid number in files points", http.StatusBadRequest)
+				return
+			}
+			if p <= 0 || p > 10 {
+				http.Error(
+					w,
+					"Invalid number range. Increased points must be between 0 and 10",
+					http.StatusBadRequest,
+				)
+				return
+			}
+
+			is = append(is, models.IncreasedStat{Stat: stat, Points: uint8(p)})
+
+		}
+
+		actData := models.ActivityModifyInput {
+			Title:			r.Form.Get("title"),
+			Description:    r.Form.Get("description"),
+			Date:			r.Form.Get("date"),
+			IncreasedStats: is,
+		}
+		err := actData.Validate()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		err = services.ModifyActivity(id, actData)
+		if err != nil {
+			http.Error(w, "Bad Form", http.StatusBadRequest)
+			return
+		}
+
+		userData, err := services.ReadUserData()
+		statsMap := services.ComputeStats(userData.Activities)
+
+		gData := models.Stats{
+			Knowledge:   statsMap[models.Knowledge],
+			Guts:        statsMap[models.Guts],
+			Proficiency: statsMap[models.Proficiency],
+			Kindness:    statsMap[models.Kindness],
+			Charm:       statsMap[models.Charm],
+		}
+
+		render.RenderOOB(w, "stats-graph", "outerHTML", render.FragmentStatsGraph, gData)
+
 	case http.MethodDelete:
 		err := services.DeleteActivity(id)
 		if err != nil {
 			http.Error(w, "Failed to delete file", http.StatusInternalServerError)
 			return
 		}
-		fmt.Fprint(w, "")
+
+		userData, err := services.ReadUserData()
+		statsMap := services.ComputeStats(userData.Activities)
+
+		gData := models.Stats{
+			Knowledge:   statsMap[models.Knowledge],
+			Guts:        statsMap[models.Guts],
+			Proficiency: statsMap[models.Proficiency],
+			Kindness:    statsMap[models.Kindness],
+			Charm:       statsMap[models.Charm],
+		}
+		render.RenderOOB(w, "stats-graph", "outerHTML", render.FragmentStatsGraph, gData)
 
 	default:
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
