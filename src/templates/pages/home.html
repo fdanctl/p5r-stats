@@ -6,6 +6,22 @@
 <link href="/static/css/components/activity-card.css" rel="stylesheet" />
 <link href="/static/css/components/tooltip.css" rel="stylesheet" />
 <link href="/static/css/components/forms.css" rel="stylesheet" />
+<style>
+  .btn-cog {
+    position: fixed;
+    right: 0.25rem;
+    bottom: 0.25rem;
+  }
+
+  .btn-cog svg {
+    transition: transform 700ms ease-out;
+  }
+
+  .btn-cog svg:hover {
+    transform: rotate(360deg);
+  }
+
+</style>
 {{ end }}
 
 {{ define "scripts" }}
@@ -35,6 +51,11 @@
     {{ end }}
   </ul>
 </section>
+<div class="btn-cog">
+  <button class="btn-icon btn-ghost rounded-md" hx-get="/partials/settings" hx-target="#modal-root">
+    {{ template "cog-svg" }}
+  </button>
+</div>
 {{ else }}
 <div class="modal-overlay">
   <div class="modal no-animation">

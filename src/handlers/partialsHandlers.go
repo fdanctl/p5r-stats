@@ -112,6 +112,14 @@ func UserDataHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		render.HTML(w, render.FragmentUsernameDiv, models.Username{Name: name[0]}, nil)
 
+	case http.MethodDelete:
+		if err := services.DeleteUserData(); err != nil {
+			http.Error(w, "Failed to delete data", http.StatusBadRequest)
+			return
+		}
+
+		w.Header().Set("HX-Refresh", "true")
+		
 	default:
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 	}
@@ -236,12 +244,12 @@ func ActivityWithIdHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		type activityDto struct {
-			Id string
-			Title string
-			Description string
-			Date string
+			Id             string
+			Title          string
+			Description    string
+			Date           string
 			IncreasedStats []models.IncreasedStat
-			Options []string
+			Options        []string
 		}
 
 		opts := make([]string, 0, 5)
@@ -250,15 +258,15 @@ func ActivityWithIdHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		render.HTML(w, render.FragmentModal, models.Modal{
-			Title: "Modify Activity", 
+			Title:   "Modify Activity",
 			Content: "activity",
 			Data: activityDto{
-				Id: activity.Id,
-				Title: activity.Title,
-				Description: activity.Description,
-				Date: activity.Date.Format("2006-01-02"),
+				Id:             activity.Id,
+				Title:          activity.Title,
+				Description:    activity.Description,
+				Date:           activity.Date.Format("2006-01-02"),
 				IncreasedStats: activity.IncreasedStats,
-				Options: opts,
+				Options:        opts,
 			},
 		}, nil)
 
@@ -305,10 +313,10 @@ func ActivityWithIdHandler(w http.ResponseWriter, r *http.Request) {
 
 		}
 
-		actData := models.ActivityModifyInput {
-			Title:			r.Form.Get("title"),
+		actData := models.ActivityModifyInput{
+			Title:          r.Form.Get("title"),
 			Description:    r.Form.Get("description"),
-			Date:			r.Form.Get("date"),
+			Date:           r.Form.Get("date"),
 			IncreasedStats: is,
 		}
 		err := actData.Validate()
@@ -388,9 +396,9 @@ func StatHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		type optionsStruct struct {
-			Stat	 *models.Stat
-			Points	 *uint8
-			Options  []string
+			Stat    *models.Stat
+			Points  *uint8
+			Options []string
 		}
 
 		opts := make([]string, 0, 5)
@@ -406,5 +414,15 @@ func StatHandler(w http.ResponseWriter, r *http.Request) {
 	default:
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 
+	}
+}
+
+func SettingsModalHandler(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodGet:
+		render.HTML(w, render.FragmentModal, models.Modal{
+			Title: "Settings",
+			Content: "settings",
+		}, nil)
 	}
 }

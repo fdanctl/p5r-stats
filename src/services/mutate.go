@@ -68,7 +68,7 @@ func CreateUserData(name string) (*models.UserData, error) {
 
 	newData := models.UserData{
 		Name:       name,
-		Pfp:        "default_pfp.png",
+		Pfp:        "assets/default_pfp.png",
 		Activities: (make([]models.Activity, 0)),
 	}
 

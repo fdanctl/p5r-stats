@@ -3,7 +3,6 @@ First project with HTMX + GO
 ### todo
 
 - graph
-- delete user
 
 ### DX improvement
 

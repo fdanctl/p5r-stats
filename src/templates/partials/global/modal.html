@@ -16,8 +16,6 @@
         {{ template "form-new-user" .Data }}
       {{ else if eq .Content "settings" }}
         {{ template "settings" .Data }}
-      {{ else if eq .Content "confirmation" }}
-        {{ template "confirmation" .Data }}
       {{ else }}
         <h1>hello</h1>
       {{ end }}

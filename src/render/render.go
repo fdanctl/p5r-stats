@@ -109,6 +109,7 @@ func Init() {
 			tmpl: template.Must(
 				template.New("").Funcs(funcs).ParseFiles(
 					append([]string{
+						"src/templates/partials/features/activity-card.html",
 						"src/templates/partials/features/profile-header.html",
 						"src/templates/partials/features/stats-graph.html",
 						"src/templates/pages/home.html",

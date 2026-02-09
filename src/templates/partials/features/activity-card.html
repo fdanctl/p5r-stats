@@ -36,6 +36,7 @@
     onkeydown="event.stopPropagation()"
     hx-swap="delete"
     hx-target="closest li"
+    hx-confirm="Are you you want to delete this activity?"
   >
       {{ template "trash-svg" }}
   </button>
