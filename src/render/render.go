@@ -46,6 +46,7 @@ func Init() {
 		"timeToString": utils.TimeToString,
 		"dict":         utils.Dict,
 		"randInt":      rand.Intn,
+		"parseStat":    utils.StatToString,
 	}
 
 	globalPartialsSrc := fmt.Sprint(config.TmplsFolder, "partials/global/")

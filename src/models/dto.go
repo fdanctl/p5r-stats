@@ -69,6 +69,7 @@ type Username struct {
 type Modal struct {
 	Title   string
 	Content string
+	Data 	any
 }
 
 type Toast struct {

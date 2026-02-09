@@ -46,17 +46,21 @@ func main() {
 		"/partials/user/edit-cancel/",
 		middleware.RequireHTMX(handlers.UserInfoHandler),
 	)
-	partialsMux.HandleFunc(
-		"/partials/modal/add-activity",
-		middleware.RequireHTMX(handlers.ModalHandler),
-	)
+	// partialsMux.HandleFunc(
+	// 	"/partials/modal/add-activity",
+	// 	middleware.RequireHTMX(handlers.ModalHandler),
+	// )
 	partialsMux.HandleFunc(
 		"/partials/stat",
 		middleware.RequireHTMX(handlers.StatHandler),
 	)
 	partialsMux.HandleFunc(
-		"/partials/add-activity",
+		"/partials/activity",
 		middleware.RequireHTMX(handlers.ActivityHandler),
+	)
+	partialsMux.HandleFunc(
+		"/partials/activity/",
+		middleware.RequireHTMX(handlers.ActivityWithIdHandler),
 	)
 
 	apiMux := http.NewServeMux() // returns json

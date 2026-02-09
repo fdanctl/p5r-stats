@@ -24,3 +24,16 @@
   column-gap: 0.5rem;
   text-align: right;
 }
+
+.activity-card > div,
+.activity-card > ul {
+  width: 100%
+}
+
+.activity-card button {
+  border-radius: 0.5rem;
+}
+
+.activity-card button:hover {
+  color: red;
+}

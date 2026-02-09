@@ -11,13 +11,13 @@
     <h3>{{ .Title }}</h3>
     <div>
       {{ if eq .Content "activity"}}
-        {{ template "form-activity" }}
+        {{ template "form-activity" .Data }}
       {{ else if eq .Content "new-user" }}
-        {{ template "form-new-user" }}
+        {{ template "form-new-user" .Data }}
       {{ else if eq .Content "settings" }}
-        {{ template "settings" . }}
+        {{ template "settings" .Data }}
       {{ else if eq .Content "confirmation" }}
-        {{ template "confirmation" . }}
+        {{ template "confirmation" .Data }}
       {{ else }}
         <h1>hello</h1>
       {{ end }}

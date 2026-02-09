@@ -5,6 +5,8 @@ import (
 	"strings"
 	"time"
 	"unicode"
+
+	"github.com/fdanctl/p5r-stats/src/models"
 )
 
 // Capitalize returns a string with the first letter capitalized.
@@ -48,6 +50,11 @@ func TimeToString(date time.Time) string {
 		"%s, %d %s, %d",
 		weekday, day, month, year,
 	)
+}
+
+func StatToString(s models.Stat) string {
+	fmt.Println("stat", s.String())
+	return s.String()
 }
 
 // Dict creates a dictionary from an even number of key-value pairs.

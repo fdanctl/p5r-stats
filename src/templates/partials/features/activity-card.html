@@ -1,5 +1,10 @@
 {{ define "activity-card" }}
-<li data-id="{{.Id}}" class="activity-card" onclick="">
+<li
+  data-id="{{ .Id }}"
+  class="activity-card"
+  hx-get="/partials/activity/{{ .Id }}"
+  hx-target="#modal-root"
+>
   <div>
     <h4>{{ .Title }}</h4>
     <p class="text-subtitle text-xs">{{ timeToString .Date }}</p>
@@ -22,5 +27,14 @@
     </li>
     {{ end }}
   </ul>
+  <button
+    class="btn-icon btn-ghost"
+    hx-delete="/partials/activity/{{ .Id }}"
+    onclick="event.stopPropagation()"
+    hx-swap="delete"
+    hx-target="closest li"
+  >
+      {{ template "trash-svg" }}
+  </button>
 </li>
 {{ end }}

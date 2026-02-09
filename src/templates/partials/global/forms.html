@@ -17,7 +17,7 @@
 
 {{define "form-activity"}}
 <form
-  hx-post="/partials/add-activity"
+  hx-post="/partials/activity"
   hx-target="closest .modal-overlay"
   hx-swap="outerHTML"
 >
@@ -27,6 +27,7 @@
     "Name"        "title"
     "ErrorMsg"    "Title is required"
     "Required"    true
+    "Value"       (or .Title "")
   )}}
   <textarea
     class="input"
@@ -34,7 +35,16 @@
     name="description"
     rows="5"
     cols="33"
-    maxlength="200"></textarea>
+    maxlength="200">{{ with .Description }}{{ . }}{{ end }}</textarea>
+  {{ if .Date }}
+    {{ template "input-group" (dict
+      "Type"        "date"
+      "Name"        "date"
+      "ErrorMsg"    "Date is required"
+      "Required"    true
+      "Value"       (or .Date "")
+    )}}
+  {{ end }}
   <div class="flex gap-xs items-center cursor-help w-fit" onmouseenter="showFirstChildTooltip(this)"
     onmouseleave="hideFirstChildTooltip(this)">
     <h4>Stats</h4>
@@ -44,7 +54,16 @@
     </div>
   </div>
   <div id="stats-selects">
-    {{ template "select-stat" }}
+    {{ range .IncreasedStats }}
+      {{ template "select-stat" (dict
+        "Stat" .Stat
+        "Points" .Points
+        "Options" $.Options
+      )}}
+    {{ end }}
+    {{if or (eq .IncreasedStats nil) (and .IncreasedStats (lt (len .IncreasedStats) 5)) }}
+      {{ template "select-stat" (dict "Options" .Options) }}
+    {{ end }}
   </div>
   <div class="music-note-container">{{ template "music-note-svg" . }}</div>
   <button class="btn-secondary modal-abs-btn" type="submit">submit</button>
@@ -52,7 +71,7 @@
 {{end}}
 
 {{ define "select-stat" }}
-<div class="select-stat" data-value="">
+<div class="select-stat" data-value="{{ .Stat }}">
   <select 
     class="input" 
     name="stat" 
@@ -64,9 +83,12 @@
     onchange="this.parentElement.dataset.value = this.value; customOnChange()"
   >
     <option value="" disabled selected hidden>Add stat</option>
+    {{ if ne .Stat nil}}
+      <option value="{{ .Stat }}" selected>{{ capitalize (parseStat .Stat) }}</option>
+    {{ end }}
     {{ if .Options }}
       {{ range .Options }}
-        <option value="{{ . }}">{{ capitalize . }}</option>
+    <option value="{{ . }}">{{ capitalize . }}</option>
       {{ end }}
     {{ else }}
       <option value="knowledge">Knowledge</option>
@@ -82,12 +104,11 @@
     "Min"   "1"
     "Max"   "10"
     "Name"  "points"
-    "Value" "1"
+    "Value" (or .Points "1")
   )}}
   <div onclick="
       customOnChange(this.parentElement.querySelector('select').value);
-      this.parentElement.querySelector('select').value !== '' &&
-        this.parentElement.remove();
+      customDelete(this);
     ">
     {{ template "x-svg" }}
   </div>
@@ -125,4 +146,3 @@
   </div>
 </div>
 {{ end }}
-

@@ -27,6 +27,14 @@ function customOnChange(minus) {
     const value = select.value;
     select.innerHTML = "";
 
+    const starter = document.createElement("option");
+    starter.value = "";
+    starter.disabled = true;
+    starter.selected = true;
+    starter.hidden = true;
+    starter.innerText = "Add stat";
+    select.appendChild(starter);
+
     const values = [value].concat(...[possibleValues]);
     console.log(values);
     for (let j = 0; j < values.length; j++) {
@@ -46,5 +54,25 @@ function customOnChange(minus) {
       }
       select.appendChild(opt);
     }
+  }
+}
+
+function customDelete(element) {
+  console.log(element);
+  const selects = [...document.getElementsByClassName("select-stat")].map((e) =>
+    e.querySelector("select"),
+  );
+  const thisSelect = element.parentElement.querySelector("select");
+  console.log(selects);
+
+  if (thisSelect.value !== "") {
+    console.log(selects.map((e) => e.value));
+    if (selects.every((e) => e.value !== "")) {
+      const clone = element.parentElement.cloneNode(true)
+      clone.querySelector("select").value = ""
+      console.log(clone)
+      document.getElementById("stats-selects").appendChild(clone)
+    }
+    element.parentElement.remove();
   }
 }

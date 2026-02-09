@@ -117,9 +117,7 @@ func UserDataHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func ModalHandler(w http.ResponseWriter, r *http.Request) {
-	// content := r.URL.Path[len("/partials/modal/"):]
-
+func ActivityHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		data := models.Modal{
@@ -128,13 +126,6 @@ func ModalHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		render.HTML(w, render.FragmentModal, data, nil)
 
-	default:
-		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
-	}
-}
-
-func ActivityHandler(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
 	case http.MethodPost:
 		if err := r.ParseForm(); err != nil {
 			http.Error(w, "Bad Form", http.StatusBadRequest)
@@ -190,7 +181,6 @@ func ActivityHandler(w http.ResponseWriter, r *http.Request) {
 			Description:    r.Form.Get("description"),
 			IncreasedStats: is,
 		})
-
 		if err != nil {
 			http.Error(w, "Bad Form", http.StatusBadRequest)
 			return
@@ -209,6 +199,75 @@ func ActivityHandler(w http.ResponseWriter, r *http.Request) {
 
 		render.RenderOOB(w, "activity-list", "afterbegin", render.FragmentActivity, aData)
 		render.RenderOOB(w, "stats-graph", "outerHTML", render.FragmentStatsGraph, gData)
+
+	default:
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+	}
+}
+
+func ActivityWithIdHandler(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Path[len("/partials/activity/"):]
+
+	switch r.Method {
+	case http.MethodGet:
+		activity, err := services.ReadActivity(id)
+		if err != nil {
+			http.Error(w, "Failed to get file", http.StatusInternalServerError)
+			return
+		}
+		fmt.Printf("activity: %v\n", activity)
+
+		options := []models.Stat{
+			models.Knowledge,
+			models.Guts,
+			models.Proficiency,
+			models.Kindness,
+			models.Charm,
+		}
+
+		for _, v := range activity.IncreasedStats {
+			for i, o := range options {
+				if o == v.Stat {
+					options = append(options[0:i], options[i+1:]...)
+					break
+				}
+			}
+		}
+
+		type activityDto struct {
+			Id string
+			Title string
+			Description string
+			Date string
+			IncreasedStats []models.IncreasedStat
+			Options []string
+		}
+
+		opts := make([]string, 0, 5)
+		for _, v := range options {
+			opts = append(opts, v.String())
+		}
+
+		render.HTML(w, render.FragmentModal, models.Modal{
+			Title: "Modify Activity", 
+			Content: "activity",
+			Data: activityDto{
+				Id: activity.Id,
+				Title: activity.Title,
+				Description: activity.Description,
+				Date: activity.Date.Format("2006-01-02"),
+				IncreasedStats: activity.IncreasedStats,
+				Options: opts,
+			},
+		}, nil)
+
+	case http.MethodDelete:
+		err := services.DeleteActivity(id)
+		if err != nil {
+			http.Error(w, "Failed to delete file", http.StatusInternalServerError)
+			return
+		}
+		fmt.Fprint(w, "")
 
 	default:
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
@@ -243,7 +302,9 @@ func StatHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		type optionsStruct struct {
-			Options []string
+			Stat	 *models.Stat
+			Points	 *uint8
+			Options  []string
 		}
 
 		opts := make([]string, 0, 5)
