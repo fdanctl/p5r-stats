@@ -43,7 +43,7 @@ function confirmModal({
   onload="document.body.classList.add('modal-open'); this.focus()"
 >
   <div
-    class="modal"
+    class="modal fit"
     onclick="event.stopPropagation()"
   >
     <h3>${title}</h3>

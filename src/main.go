@@ -29,6 +29,7 @@ func main() {
 			http.FileServer(http.Dir("assets/")),
 		),
 	)
+	webMux.HandleFunc("/radar", handlers.RadarHandler)
 	webMux.HandleFunc("/", handlers.HomeHandler)
 	webMux.HandleFunc("/design-system", handlers.DesignHandler)
 	webMux.HandleFunc("/test", handlers.TestHandler)

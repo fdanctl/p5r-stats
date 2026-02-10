@@ -4,10 +4,9 @@
 }
 
 #stats-graph {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  white-space: nowrap;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 300px;
 }
 
 #user-info {
@@ -18,7 +17,8 @@
 
 #pfp {
   position: relative;
-  width: 15rem;
+  max-width: 15rem;
+  max-height: 15rem;
   aspect-ratio: 1/1;
   cursor: pointer;
   padding: 0;

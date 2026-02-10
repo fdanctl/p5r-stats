@@ -80,7 +80,7 @@ func (v IncreasedStat) Validate() error {
 	if v.Points <= 0 {
 		return errors.New("Field 'points' is required, and must be 1 or higher.")
 	}
-	if v.Points >= 10 {
+	if v.Points > 10 {
 		return errors.New("Field 'points' is required, and must be 10 or lower.")
 	}
 	return nil
