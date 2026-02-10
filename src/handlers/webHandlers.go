@@ -20,7 +20,6 @@ func RadarHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	stats := services.ComputeStats(udata.Activities)
 
-	// Example data (0–100 scale)
 	data := []services.Metric{
 		{Label: "Knowledge", Value: float64(stats[models.Knowledge])},
 		{Label: "Guts", Value: float64(stats[models.Guts])},

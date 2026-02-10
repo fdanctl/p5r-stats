@@ -64,10 +64,8 @@ func main() {
 		middleware.RequireHTMX(handlers.SettingsModalHandler),
 	)
 
-	apiMux := http.NewServeMux() // returns json
-	apiMux.HandleFunc("/api/user-data", handlers.UserDataHandlerAPI)
-	apiMux.HandleFunc("/api/activity", handlers.ActivityHandlerAPI)
-	apiMux.HandleFunc("/api/activity/", handlers.ActivityIdHandlerAPI)
+	apiMux := http.NewServeMux()
+	apiMux.HandleFunc("/api/health", handlers.HealthHandler)
 
 	fmt.Println("Server running at http://localhost:" + config.ServerPort)
 
